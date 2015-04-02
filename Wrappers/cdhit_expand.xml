@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<tool id="Expand_BLAST" name="Expand BLAST results" version="0.2">
+        <description>Expand BLAST or HTS-barcode-checker results with the clusters size.</description>
+
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
+
+                cdhit_expand.sh
+		$input_type.input_format
+		#if $input_type.input_format == "hist"
+			$input_type.input_blast
+			$input_type.cluster_stat_tsv
+			$output_tsv
+		#else
+			$input_type.input_zip
+			$input_type.cluster_stat_zip
+			$output_zip
+		#end if
+
+        </command>
+
+        <inputs>
+		<!-- get the input type and input files -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="History or ZIP file?">
+				<option value="hist">History</option>
+				<option value="zip">ZIP</option>
+			</param>
+			<when value="hist">
+				<param name="input_blast" type="data" format="tsv" label="BLAST results" help="BLAST tsv file." />
+				<param name="cluster_stat_tsv" type="data" format="tsv" label="Cluster stats file" help="The cluster stats." />
+			</when>
+			<when value="zip">
+				<param name="input_zip" type="data" format="zip" label="ZIP file with the BLAST results" help="ZIP file containing the BLAST results in tsv format" />
+				<param name="cluster_stat_zip" type="data" format="zip" label="Cluster stats zip" help="The zip containing the cluster stats" />
+			</when>
+		</conditional>
+        </inputs>
+
+        <outputs>
+		<!-- set the output files based on the selected input files zip to zip and clstr / tsv to tsv -->
+		<data format="zip" name="output_zip" label="ZIP file with the expanded blast results">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+		<data format="tsv" name="output_tsv" label="The expanded blast result">
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+        </outputs>
+
+        <tests>
+        </tests>
+
+        <help>
+                Expand the BLAST results with an additional collumn containing the cluster size (in number of sequences), assuming that the BLAST input is based on clustered data.
+        </help>
+
+</tool>

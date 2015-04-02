@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<tool id="blast" name="BLAST" version="0.4">
+        <description>Wrapper for online or local BLASTing.</description>
+
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
+
+		blast.sh
+		$input_type.input_format
+		#if $input_type.input_format == "hist"
+			$input_type.input_seq
+			$output_tsv
+		#else
+			$input_type.input_zip
+			$output_zip
+		#end if                
+
+		$hitlist
+		$min_iden
+		$min_cov
+		$max_e
+
+		#if $location.blast_loc == "local"
+			-lb
+			$location.blast_db
+		#else
+			$location.blast_database.blast_al
+			$location.blast_database.blast_db
+		#end if
+		
+        </command>
+
+	<!-- Two macros containing the various NCBI databases that can be blasted against -->
+	<macros>
+		<macro name="nucleotide">
+			<param name="blast_db" type="select" label="BLAST nucleotide database">
+				<option value="nt" selected="true">Non-redundant sequences (nt)</option>
+				<option value="refseq_mrna">mRNA reference sequences</option>
+				<option value="refseq_genomic">Genomic reference sequences</option>
+				<option value="est">Genbank EST database</option>
+				<option value="env_nt">Environmental sequences</option>
+			</param>
+		</macro>
+		<macro name="protein">
+			<param name="blast_db" type="select" label="BLAST protein database">
+				<option value="nt" selected="true">Non-redundant CDS sequences (nt)</option>
+				<option value="refseq">Reference protein sequences</option>
+				<option value="swissprot">Last release of the swissprot protein database</option>
+				<option value="pdb">Sequences derived from the 3d structure records of the protein data bank</option>
+				<option value="env_nr">Non-redundant CDS sequence from environmental entries</option>
+			</param>
+		</macro>
+	</macros>
+
+        <inputs>
+		<!-- get the type of input file, and the file itself (zip vs fasta) -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="History or ZIP file?">
+				<option value="hist">History</option>
+				<option value="zip">ZIP</option>
+			</param>
+			<when value="hist">
+				<param name="input_seq" type="data" format="fasta" label="Sequence file" help="FASTA file." />
+			</when>
+			<when value="zip">
+				<param name="input_zip" type="data" format="zip" label="ZIP file containing the sequences" help="ZIP file." />
+			</when>
+		</conditional>
+
+		<!-- determine the blast type (online vs offline) -->
+		<conditional name="location">
+			<param name="blast_loc" type="select" label="Online (NCBI GenBank) / Local BLAST">
+				<option value="online">NCBI online BLAST</option>
+				<option value="local" selected="true">Local BLAST</option>
+			</param>
+
+			<!-- online blast settings -->
+			<when value="online">
+				<conditional name="blast_database">
+					<param name="blast_al" type="select" label="BLAST algorithm">
+						<option value="blastn" selected="true">BLASTn</option>
+						<option value="blastp">BLASTp</option>
+						<option value="blastx">BLASTx</option>
+						<option value="tblast">tBLASTt</option>
+						<option value="tblastx">tBLASTx</option>
+					</param>
+					<when value="blastn">
+						<expand macro="nucleotide"/>
+					</when>
+					<when value="blastp">
+						<expand macro="protein"/>
+					</when>
+					<when value="blastx">
+						<expand macro="protein"/>
+					</when>
+					<when value="tblastn">
+						<expand macro="nucleotide"/>
+					</when>
+					<when value="tblastx">
+						<expand macro="nucleotide"/>
+					</when>
+				</conditional>
+			</when>
+
+			<!-- local blast settings -->
+			<when value="local">
+				<param name="blast_db" type="select" multiple="true" label="Local BLAST database">
+					<option value="nt" select="true">GenBank Nucleotide Database</option>
+					<option value="BoLD_combined_filtered.fasta">Filtered BoLD Database (Only sequenced identified to species level)</option>
+                                        <option value="BoLD_combined_unfiltered.fasta">Unfiltered BoLD Database (All sequences)</option>
+					<option value="sh*fasta">UNITE Fungal ITS Database</option>
+					<option value="SILVA*SSU*fasta">SILVA SSU (16S and 18S) Database</option>
+					<option value="SILVA*LSU*fasta">SILVA LSU (23S and 28S) Database</option>
+				</param>
+			</when>
+
+		</conditional>
+
+		<!-- general blast filter options -->
+		<param name="hitlist" type="integer" label="Maximum number of BLAST hits per sequence (max 20 for online BLASTing)" value="10" min="1"/>
+		<param name="min_iden" type="integer" label="Minimum BLAST hit identity"  value="97" min="1" max="100"/>
+		<param name="min_cov" type="integer" label="Minimum BLAST hit coverage" value="100" min="1"/>
+		<param name="max_e" type="float" label="Maximum e-value" value="0.05" max="1.00"/>
+
+        </inputs>
+
+        <outputs>
+		<!-- based on the input the correct output file type is set, ie input zip = output zip
+			input fasta = output tsv -->
+		<data format="tabular" name="output_tsv" label="BLAST results">
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+		<data format="zip" name="output_zip" label="BLAST results zip">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+        </outputs>
+
+        <tests>
+        </tests>
+
+        <help>
+                BLAST FASTA sequences against either online against the NCBI genbank database or against local copies (nt supported). Online BLASTing is limited to a 100 sequences max per run.
+        </help>
+
+</tool>
+

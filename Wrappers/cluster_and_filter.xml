@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<tool id="cluster_and_filter" name="Cluster and Filter" version="0.2">
+	<description>Clustering and filtering of sequences with CD-HIT.</description>
+
+	<!-- collect the parameters and provide these to the wrapper script -->
+	<command interpreter="bash">
+
+		cluster_and_filter.sh
+		$input_type.input_format
+		$cluster_thresh
+		$min_size
+		#if $input_type.input_format == "hist"
+			$input_type.input_seq
+			$filtered_clusters
+			$cluster_stat_file
+		#else
+			$input_type.input_zip
+			$output_zip
+		#end if
+
+	</command>
+
+	<inputs>
+		<!-- get the input files and input filetypes -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="History or ZIP file?">
+				<option value="hist">History</option>
+				<option value="zip">ZIP</option>
+			</param>
+			<when value="hist">
+				<param name="input_seq" type="data" format="fasta" label="Sequence file" help="FASTA file." />
+			</when>
+			<when value="zip">
+				<param name="input_zip" type="data" format="zip" label="ZIP file containing the sequences" help="ZIP file." />
+			</when>
+		</conditional>
+
+		<!-- cluster arguments -->
+		<param name="cluster_thresh" type="float" label="Cluster threshold" help="The minimum sequence similarity for clustering." value="0.97" min="0" />
+		<param name="min_size" type="integer" label="Minimum cluster size" help="The minimum number of reads per cluster." value="2" min="0"/>
+	</inputs>
+
+	<outputs>
+		<!-- set the output file types based on the input types if the input
+			is zip, return a zip file, if the input is a fasta file
+			return both the clustered fasta file and the stats txt file -->
+		<data format="zip" name="output_zip" label="Clustered ZIP file">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+		<data format="fasta" name="filtered_clusters" label="The filtered clusters">
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+		<data format="txt" name="cluster_stat_file" label="The cluster stats file">
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+		Cluster the input FASTA file with CD-HIT-EST and remove the clusters smaller than the minimum size. The sequence similarity can be changed to either create more specific cluster (increase the threshold) or broader clusters (lower the threshold).
+	</help>
+
+</tool>

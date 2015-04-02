@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<tool id="prinseq_trimmer" name="Read trimmer" version="0.2">
+        <description>PRINSEQ Read trimmer.</description>
+
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
+
+                prinseq.sh
+		$input_type.input_format
+		#if $input_type.input_format == "hist"
+			$input_type.in_seq.in_seq_format
+			#if $input_type.in_seq.in_seq_format == "-fastq"
+				$input_type.in_seq.out_seq.out_seq_format
+			#else
+				"1"
+			#end if
+			$input_type.in_seq.input_file
+			$output_seq
+		#else
+			$input_type.in_zip.in_seq_format
+			#if $input_type.in_zip.in_seq_format == "-fastq"
+				$input_type.in_zip.out_seq.out_seq_format
+			#else
+				"1"
+			#end if
+			$input_type.input_file
+			$output_zip
+		#end if
+		
+		-out_bad null
+
+		#if int($trim_left) > 0
+			-trim_left $trim_left
+		#end if
+
+		#if int($trim_right) > 0
+			-trim_right $trim_right
+		#end if
+
+		#if int($trim_qual_left) > 0
+			-trim_qual_left $trim_qual_left
+		#end if
+
+		#if int($trim_qual_right) > 0
+			-trim_qual_right $trim_qual_right
+		#end if
+
+		#if int($trim_to_len) > 0
+			-trim_to_len $trim_to_len
+		#end if
+
+		#if int($min_len) > 0		
+			-min_len $min_len
+		#end if
+
+		#if int($max_len) > 0
+			-max_len $max_len
+		#end if
+
+		#if int($min_qual_score) > 0
+			-min_qual_score $min_qual_score
+		#end if
+
+		#if int($max_qual_score) > 0
+			-max_qual_score $max_qual_score
+		#end if
+
+		#if int($min_qual_mean) > 0
+			-min_qual_mean $min_qual_mean
+		#end if
+
+		#if int($max_qual_mean) > 0
+			-max_qual_mean $max_qual_mean
+		#end if
+
+		#if $dup.derep != 'none'
+			-derep $dup.derep
+		#end if
+
+	</command>
+
+	<macros>
+		<!-- macros for both the input and output sequence type (fastq or fasta) -->
+		<macro name="in_format">
+			<param name="in_seq_format" type="select" label="File in FASTA or FASTQ format?">
+				<option value="-fasta">FASTA</option>
+				<option value="-fastq" selected="true">FASTQ</option>
+			</param>
+		</macro>
+		<macro name="out_format">
+			<param name="out_seq_format" type="select" label="Output in FASTA or FASTQ format?">
+				<option value="1">FASTA</option>
+				<option value="3">FASTQ</option>
+			</param>
+		</macro>
+	</macros>
+
+	<inputs>
+		<!-- input file / input format / seq type settings (same as prinseq_analyze script) -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="History or ZIP file?">
+				<option value="hist">History</option>
+				<option value="zip">ZIP</option>
+			</param>
+			<!-- nested conditional for sequence file and output selection -->
+			<when value="hist">
+				<conditional name="in_seq">
+					<expand macro="in_format"/>
+					<when value="-fasta">
+						<param name="input_file" type="data" format="fasta" label="FASTA Sequence file" help="FASTA file." />
+					</when>
+                                        <when value="-fastq">
+						<conditional name="out_seq">
+							<expand macro="out_format"/>
+						</conditional>
+						<param name="input_file" type="data" format="fastq" label="FASTQ Sequence file" help="FASTQ file." />
+					</when>
+				</conditional>
+			</when>
+			<!-- get the zip file and output format -->
+			<when value="zip">
+				<conditional name="in_zip">
+					<expand macro="in_format" />
+					<when value="-fastq">
+						<conditional name="out_seq">
+							<expand macro="out_format"/>
+						</conditional>
+					</when>
+				</conditional>				
+				<param name="input_file" type="data" format="zip" label="ZIP file" help="ZIP file containing reads." />
+			</when>
+		</conditional>
+
+		<!-- Arguments of sequence trimming -->
+                <param name="trim_left" type="integer" label="Trim '5 end" help="Trim the n bases on the '5 end." value="0" min="0"/>
+                <param name="trim_right" type="integer" label="Trim '3 end" help="Trim the n bases on the '3 end." value="0" min="0"/>
+                <param name="trim_qual_left" type="integer" label="Trim the '5 end based on quality" help="Trim the '5 bases if the are below the quality threshold." value="0" min="0"/>
+                <param name="trim_qual_right" type="integer" label="Trim the '3 end based on quality" help="Trim the '3 bases if the are below the quality threshold." value="0" min="0"/>
+                <param name="trim_to_len" type="integer" label="Trim to length" help="Trim the '5 end till the sequence meets the desired length." value="0" min="0"/>
+
+		<!-- Arguments for sequence filtering -->
+		<param name="min_len" type="integer" label="Minimum read length" help="The minimum read length." value="0" min="0"/>
+                <param name="max_len" type="integer" label="Maximum read length" help="The maximum read length." value="0" min="0"/>
+                <param name="min_qual_score" type="integer" label="Minimum quality" help="The minimum base quality allowed per read." value="0" min="0"/>
+                <param name="max_qual_score" type="integer" label="Maximum quality" help="The maximum base quality allowed per read." value="0" min="0"/>
+                <param name="min_qual_mean" type="integer" label="Minimum mean quality" help="The minimum mean quality per read." value="0" min="0"/>
+                <param name="max_qual_mean" type="integer" label="Maximum mean quality" help="The maximum mean quality per read." value="0" min="0"/>
+
+		<conditional name="dup">
+			<param name="derep" type="select" label="Remove duplicate reads.">
+				<option value="none">No removal</option>
+				<option value="1">Exact duplicates</option>
+				<option value="23">Partial 5'/3' end duplicates</option>
+				<option value="4">Exact reverse complement duplicates</option>
+				<option value="5">Partial 5'/3' reverse complement duplicates</option>
+				<option value="235">All duplicates</option>
+			</param>
+		</conditional>
+
+	</inputs>
+
+	<outputs>
+		<!-- set the output file types depending on the selected arguments -->
+		<data format="fasta" name="output_seq" label="filtered sequences">
+			<filter>input_type['input_format'] != "zip"</filter>
+			<change_format>
+				<when input="input_type.in_seq.out_seq.out_seq_format" value="3" format="fastq"/>
+			</change_format>
+		</data>
+		<data format="zip" name="output_zip" label="Primer Split ZIP file">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+
+
+	</outputs>
+
+	<tests>
+	</tests>
+	
+	<help>
+		The PRINSEQ sequence filter / converter tool. Use PRINSEQ to either cleanup raw read data (by filtering or trimming) or converting data from one file format into the other (FASTQ > FASTA).
+	</help>
+
+</tool>

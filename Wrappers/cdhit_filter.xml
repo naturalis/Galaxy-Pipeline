@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<tool id="cdhit_filter" name="CD-HIT filter" version="0.1">
+        <description>CD-HIT cluster filtering.</description>
+
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
+
+                cdhit_filter.sh
+                -f $clusters
+                -c $cluster_stat
+                -m $min_size
+                $filtered_clusters
+
+        </command>
+
+        <inputs>
+                <param name="clusters" type="data" format="fasta" label="Cluster sequence file" help="FASTA file containing the CD-HIT-EST clusters." />
+                <param name="cluster_stat" type="data" format="txt" label="Cluster stats" help="The CD-HIT-EST clusters stats" />
+		<param name="min_size" type="integer" label="Minimum cluster size" help="The minimum number of reads per cluster." value="2" min="0"/>
+        </inputs>
+
+        <outputs>
+                <data format="fasta" name="filtered_clusters" label="The filtered clusters" /> 
+        </outputs>
+
+        <tests>
+        </tests>
+
+        <help>
+                Filter the clusters produced by CD-HIT based on a minimum cluster size, usefull for removing singletons from the cluster data. Note: this tool only works for non-zipped cluster files.
+        </help>
+
+</tool>
+

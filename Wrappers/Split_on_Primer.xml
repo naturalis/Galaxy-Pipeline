@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<tool id="Split_on_Primer" name="Split on primer" version="1.0" force_history_refresh="True">
+	<description>Demultiplex a sequence file based on the used primers.</description>
+
+	<!-- collect the parameters and provide these to the wrapper script -->
+	<command interpreter="bash">
+
+		Split_on_Primer.sh
+		"$input_select.input_type"
+		"$input_select.input_reads"
+		"$input_select.input_reads.display_name"
+		"$primer_select.primer_type"
+		"$primer_select.primers"
+		"$mis"
+		"$shift"
+		#if $trim.value == True
+			"--trim"
+		#else
+			" "
+		#end if
+		#if $input_select.input_type != "zip"
+			"$output"
+			"$output.id"
+		#elif $input_select.input_type == "zip"
+			"$primer_zip"
+		#end if
+
+
+	</command>
+	<inputs>
+		<!-- get the input file (fasta, fastq or zip) -->
+		<conditional name="input_select">
+			<param name="input_type" type="select" label="Input type">
+				<option value="fasta">FASTA</option>
+				<option value="fastq">FASTQ</option>
+				<option value="zip">ZIP</option>
+			</param>
+			<when value="fasta">
+				<param format="fasta" name="input_reads" type="data" label="Read file in FASTA format" />
+			</when>
+			<when value="fastq">
+				<param format="fastq" name="input_reads" type="data" label="Read file in FASTQ format" />
+			</when>
+			<when value="zip">
+				<param format="zip" name="input_reads" type="data" label="ZIP file containing read files" />
+			</when>
+		</conditional>
+		<!-- primer select, either through file or text form -->
+		<conditional name="primer_select">
+			<param name="primer_type" type="select" label="Primer type">
+				<option value="file">CSV file</option>
+				<option value="text">Text form</option>
+			</param>
+			<when value="file">
+				<param name="primers" format="csv" type="data" label="Primer file in CSV format (Primer,Sequence)" />
+			</when>
+			<when value="text">
+				<param name="primers" type="text" area="True" size="4x40" label="Primers and sequences" help="Provide the primer names and sequences in the following format: Primer,Sequence. One primer - sequence combination per line." />
+			</when>
+		</conditional>
+		<!-- additional arguments -->
+		<param name="mis" type="integer" label="Maximum number of mismatches allowed" value="1" min="0" />
+		<param name="shift" type="integer" label="Maximum sequence shift allowed, each frameshift count towards the maximum number of mismatces" value="1" min="0" />
+		<param name="trim" type="boolean" checked="true" label="Trim the primers" />
+	</inputs>
+	<outputs>
+		<!-- set the output file format based on the selected input type -->
+		<data format="tabular" name="output" label="$input_select.input_reads.display_name - Demultiplexed sequence files">
+			<filter>input_select['input_type'] != "zip"</filter>
+		</data>
+		<data format="zip" name="primer_zip" label="Primer Split ZIP file">
+			<filter>input_select['input_type'] == "zip"</filter>
+		</data>
+	</outputs>
+	<tests>
+	</tests>
+	<help>
+		Demultiplex a file containing raw reads based on a set of user provided primers. The tool will create an output file for each primer the user has placed in the primer file.
+	</help>
+</tool>

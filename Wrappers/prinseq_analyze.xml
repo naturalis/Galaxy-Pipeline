@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<tool id="prinseq_analyze" name="Read analyzer" version="0.2">
+        <description>PRINSEQ Read analyzer.</description>
+
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
+
+                prinseq_analyze.sh
+		$input_type.input_format
+		#if $input_type.input_format == "hist"
+			$input_type.hist_select.seq_format
+			$input_type.hist_select.input_file
+		#else
+			$input_type.seq_format
+			$input_type.input_file
+		#end if
+		$output
+		
+	</command>
+
+	<macros>
+		<!-- macro of sequence type select -->
+		<macro name="format">
+			<param name="seq_format" type="select" label="File in FASTA or FASTQ format?">
+				<option value="-fasta">FASTA</option>
+				<option value="-fastq" selected="true">FASTQ</option>
+			</param>
+		</macro>
+	</macros>
+
+	<inputs>
+		<!-- selection of the input type (zip / hist) and files -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="History or ZIP file?">
+				<option value="hist">History</option>
+				<option value="zip">ZIP</option>
+			</param>
+			<when value="hist">
+				<conditional name="hist_select">
+					<expand macro="format"/>
+					<when value="-fasta">
+						<param name="input_file" type="data" format="fasta" label="FASTA Sequence file" help="FASTA file." />
+					</when>
+					<when value="-fastq">
+						<param name="input_file" type="data" format="fastq" label="FASTQ Sequence file" help="FASTQ file." />
+					</when>
+				</conditional>
+			</when>
+			<when value="zip">
+				<expand macro="format" />
+				<param name="input_file" type="data" format="zip" label="ZIP file" help="ZIP file containing reads." />
+			</when>
+		</conditional>
+	</inputs>
+
+	<outputs>
+                <data format="html" name="output" label="Stat data" />
+	</outputs>
+
+	<tests>
+	</tests>
+	
+	<help>
+		Use PRINSEQ to analyze a set of sequenes (FASTQ or FASTA format). The tool will produce a HTML report that contains detailed information about the input reads, this data can be used for more accurate filtering of the input data. Note: If a ZIP file is provided only the first 25k reads per file will be used for the analysis in order to reduce computational time.
+	</help>
+
+</tool>

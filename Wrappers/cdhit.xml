@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<tool id="cdhit" name="CD-HIT" version="0.1">
+        <description>CD-HIT-EST clustering.</description>
+
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
+
+                cdhit.sh
+                $input_file
+                $cluster_file
+                $cluster_thresh
+                $cluster_stat_file
+		$cluster_histogram
+
+        </command>
+
+        <inputs>
+                <param name="input_file" type="data" format="fasta" label="Sequence file" help="FASTA file." />
+                <param name="cluster_thresh" type="float" label="Cluster threshold" help="The minimum sequence similarity for clustering." value="0.97" min="0" />
+        </inputs>
+
+        <outputs>
+                <data format="fasta" name="cluster_file" label="The clustered sequences" /> 
+                <data format="txt" name="cluster_stat_file" label="The cluster stats file" />
+		<data format="png" name="cluster_histogram" label="Histogram of the CD-HIT cluster" />
+        </outputs>
+
+        <tests>
+        </tests>
+
+        <help>
+                Cluster the input FASTA file with CD-HIT-EST. The sequence similarity can be changed to either create more specific cluster (increase the threshold) or broader clusters (lower the threshold). Note: the tools only works with non-zipped information.
+        </help>
+
+</tool>
+

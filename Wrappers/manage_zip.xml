@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<tool id="manage_zip" name="Manage Zip" version="0.2" force_history_refresh="True">
+        <description>Manage zip collection</description>
+
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
+
+                manage_zip.sh
+		"$action.select_action"
+                #if $action.select_action == "display"
+			"$action.input_zip"
+			"$log_file"
+		#elif $action.select_action == "create" or $action.select_action == "expand"
+			#if $action.select_action == "create"
+				"$tozip_file"
+			#elif $action.select_action == "expand"
+				"$action.input_zip"
+			#end if
+			"$action.tozip"
+			#for $i in $action.tozip
+				"$i","$i.display_name"
+			#end for
+		#elif $action.select_action == "unpack"
+			"$action.input_zip"
+			"$log_file"
+			"$log_file.id"
+			"$action.extract"
+		#elif $action.select_action == "rename"
+			"$action.input_zip"
+			"$action.source.rename_type"
+			#if $action.source.rename_type == "file"
+				"$action.source.name_table"
+			#elif $action.source.rename_type == "regex"
+				"$action.source.regex_table"
+			#end if
+		#elif $action.select_action == "delete"
+			"$action.input_zip"
+			"$action.remove"
+		#elif $action.select_action == "subset"
+			"$action.input_zip"
+			"$tozip_file"
+			"$action.sub"
+		#end if
+
+        </command>
+
+	<macros>
+		<!-- macros for input zip or unzipped files -->
+		<macro name="input_zip">
+			<param name="input_zip" type="data" format="zip" label="Input ZIP file" help="ZIP fileData file" />
+		</macro>
+
+		<macro name="tozip">
+			<param name="tozip" type="data" multiple="true" label="Files to zip"/>
+		</macro>
+
+	</macros>
+
+        <inputs>
+		<!-- the main list of actions the user can select for zip file management -->
+		<conditional name="action">
+			<param name="select_action" type="select" label="ZIP options">
+				<option value="display">Display ZIP content</option>
+				<option value="create">Create ZIP</option>
+				<option value="expand">Expand ZIP</option>
+				<option value="unpack">Unpack items from ZIP</option>
+				<option value="rename">Rename items in ZIP</option>
+				<option value="delete">Delete items in ZIP</option>
+				<option value="subset">Create subset</option>
+			</param>
+
+			<when value="display">
+				<expand macro="input_zip" />
+			</when>
+
+			<when value="create">
+				<expand macro="tozip" />
+			</when>
+
+			<when value="expand">
+				<expand macro="input_zip" />
+				<expand macro="tozip" />
+			</when>
+
+			<when value="unpack">
+				<expand macro="input_zip" />
+				<param name="extract" type="text" area="True" size="4x40" label="Files to extract" help="File to extract from zip, either provide full names or use wildcards for filematching (*). If no names are provided all contents will be extracted." />
+			</when>
+
+			<when value="rename">
+				<expand macro="input_zip" />
+				<conditional name="source">
+					<param name="rename_type" type="select" label="Rename option">
+						<option value="file">Rename CSV file</option>
+						<option value="regex">Regular expression based renaming</option>
+					</param>
+					
+					<when value="file">
+						<param name="name_table" type="data" format="csv" label="Name table" help="Name table (in the following csv format &quot;[old name],[new name]&quot;)" />
+					</when>
+
+					<when value="regex">
+						<param name="regex_table" type="text" area="True" size="4x40" label="List of regular expressions" help="List of regular expressions used for renaming files. Use the following format: [string to match]/[string to replace] (without the brackets). Use one regular expression per line, wildcards are allowed. Note: the first regular expression that matches for a file is used, if multiple substitutions are required per file the tools has to be ran several times." />
+					</when>
+				</conditional>
+			</when>
+
+			<when value="delete">
+				<expand macro="input_zip" />
+				<param name="remove" type="text" area="True" size="4x40" label="Files to delete" help="Files to delete from zip, either provide full names or use wildcards for filematching (*)" />
+			</when>
+
+			<when value="subset">
+				<expand macro="input_zip" />
+                                <param name="sub" type="text" area="True" size="4x40" label="Files to delete" help="Files to extract from zip, either provide full names or use wildcards for filematching (*)" />
+			</when>
+
+		</conditional>
+		
+        </inputs>
+
+        <outputs>
+		<!-- sets the output files depending on the selected ZIP management options -->
+                <data format="txt" name="log_file" label="Log file">
+			<filter>action['select_action'] != "create" and action['select_action'] != "subset"</filter>
+		</data>
+		<data format="zip" name="tozip_file" label="Zip file">
+			<filter>action['select_action'] == "create" or action['select_action'] == "subset"</filter>
+		</data>
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+		Manage files in the current history. Extract or create .ZIP files, rename files in bulk or delete non-relevant files.
+	</help>
+
+</tool>
+

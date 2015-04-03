@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<tool id="cluster_and_filter" name="Cluster and Filter" version="0.2">
-	<description>Clustering and filtering of sequences with CD-HIT.</description>
+<tool id="cluster_and_filter" name="Cluster and Filter" version="1.0">
+	<description>Clustering and filtering of sequences.</description>
 
 	<!-- collect the parameters and provide these to the wrapper script -->
 	<command interpreter="bash">
@@ -23,9 +23,9 @@
 	<inputs>
 		<!-- get the input files and input filetypes -->
 		<conditional name="input_type">
-			<param name="input_format" type="select" label="History or ZIP file?">
-				<option value="hist">History</option>
-				<option value="zip">ZIP</option>
+			<param name="input_format" type="select" label="Single file or ZIP archive?">
+				<option value="hist">Single file</option>
+				<option value="zip">ZIP archive</option>
 			</param>
 			<when value="hist">
 				<param name="input_seq" type="data" format="fasta" label="Sequence file" help="FASTA file." />
@@ -44,13 +44,13 @@
 		<!-- set the output file types based on the input types if the input
 			is zip, return a zip file, if the input is a fasta file
 			return both the clustered fasta file and the stats txt file -->
-		<data format="zip" name="output_zip" label="Clustered ZIP file">
+		<data format="zip" name="output_zip" label="$input_type.input_zip.display_name Clustered">
 			<filter>input_type['input_format'] == "zip"</filter>
 		</data>
-		<data format="fasta" name="filtered_clusters" label="The filtered clusters">
+		<data format="fasta" name="filtered_clusters" label="$input_type.input_seq.display_name Clustered">
 			<filter>input_type['input_format'] != "zip"</filter>
 		</data>
-		<data format="txt" name="cluster_stat_file" label="The cluster stats file">
+		<data format="txt" name="cluster_stat_file" label="$input_type.input_seq.display_name Stats">
 			<filter>input_type['input_format'] != "zip"</filter>
 		</data>
 	</outputs>

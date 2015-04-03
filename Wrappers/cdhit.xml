@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<tool id="cdhit" name="CD-HIT" version="0.1">
-        <description>CD-HIT-EST clustering.</description>
+<tool id="cdhit" name="Clustering" version="1.0">
+        <description>Clustering of sequences.</description>
 
         <!-- collect the parameters and provide these to the wrapper script -->
         <command interpreter="bash">
@@ -20,9 +20,9 @@
         </inputs>
 
         <outputs>
-                <data format="fasta" name="cluster_file" label="The clustered sequences" /> 
-                <data format="txt" name="cluster_stat_file" label="The cluster stats file" />
-		<data format="png" name="cluster_histogram" label="Histogram of the CD-HIT cluster" />
+                <data format="fasta" name="cluster_file" label="$input_file.display_name Clustered" /> 
+                <data format="txt" name="cluster_stat_file" label="$input_file.display_name Stats" />
+		<data format="png" name="cluster_histogram" label="$input_file.display_name Histogram" />
         </outputs>
 
         <tests>

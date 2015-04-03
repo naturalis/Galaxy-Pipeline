@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<tool id="prinseq_analyze" name="Read analyzer" version="0.2">
-        <description>PRINSEQ Read analyzer.</description>
+<tool id="prinseq_analyze" name="Sequence analyzer" version="1.0">
+        <description>Get a summary of the sequence data.</description>
 
         <!-- collect the parameters and provide these to the wrapper script -->
         <command interpreter="bash">
@@ -10,11 +10,12 @@
 		#if $input_type.input_format == "hist"
 			$input_type.hist_select.seq_format
 			$input_type.hist_select.input_file
+			$output_seq
 		#else
 			$input_type.seq_format
 			$input_type.input_file
+			$output_zip
 		#end if
-		$output
 		
 	</command>
 
@@ -31,9 +32,9 @@
 	<inputs>
 		<!-- selection of the input type (zip / hist) and files -->
 		<conditional name="input_type">
-			<param name="input_format" type="select" label="History or ZIP file?">
-				<option value="hist">History</option>
-				<option value="zip">ZIP</option>
+			<param name="input_format" type="select" label="Single file or ZIP archive?">
+				<option value="hist">Single file</option>
+				<option value="zip">ZIP archive</option>
 			</param>
 			<when value="hist">
 				<conditional name="hist_select">
@@ -48,20 +49,26 @@
 			</when>
 			<when value="zip">
 				<expand macro="format" />
-				<param name="input_file" type="data" format="zip" label="ZIP file" help="ZIP file containing reads." />
+				<param name="input_file" type="data" format="zip" label="ZIP file" help="ZIP file containing the sequences." />
 			</when>
 		</conditional>
 	</inputs>
 
 	<outputs>
-                <data format="html" name="output" label="Stat data" />
+		<!-- set the output name based on the input type provided by the user -->
+                <data format="html" name="output_seq" label="$input_type.hist_select.input_file.display_name Graphs" >
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+		<data format="html" name="output_zip" label="$input_type.input_file.display_name Graphs" >
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
 	</outputs>
 
 	<tests>
 	</tests>
 	
 	<help>
-		Use PRINSEQ to analyze a set of sequenes (FASTQ or FASTA format). The tool will produce a HTML report that contains detailed information about the input reads, this data can be used for more accurate filtering of the input data. Note: If a ZIP file is provided only the first 25k reads per file will be used for the analysis in order to reduce computational time.
+		Use PRINSEQ to analyze a set of sequenes (FASTQ or FASTA format). The tool will produce a HTML report that contains detailed information about the input sequences, this data can be used for more accurate filtering of the input data. Note: If a ZIP file is provided only the first 25k sequences per file will be used for the analysis in order to reduce computational time.
 	</help>
 
 </tool>

@@ -75,7 +75,7 @@ then
 				then
 					# if a file matches unzip it, spaces are replaced
 					unzip -p "$2" $file > "primary_$4_"$(echo ${file%.*} | sed 's/_/-/g' |\
-					sed 's/ /-/g')"_visible_"${file#*.}
+					sed 's/ /-/g')"_visible_"$(echo ${file#*.} | sed 's/tsv/tabular/g')
 
 					# if a file is unzipped, break to avoid duplicates
 					break
@@ -84,7 +84,7 @@ then
 		else
 			# if nothing is provided, unzip everything
 			unzip -p "$2" "$file" > "primary_$4_"$(echo ${file%.*} | sed 's/_/-/g' |\
-			sed 's/ /-/g')"_visible_"${file#*.}
+			sed 's/ /-/g')"_visible_"$(echo ${file#*.} | sed 's/tsv/tabular/g')
 		fi
 	done
 
@@ -131,7 +131,7 @@ then
 # Delete files in ZIP
 elif [ "$1" == "delete" ]
 then
-	# delete items in the zip that match with the filenames / 
+	# delete items in the zip that match with the filenames /
 	# regexes provided by the user
 	items=$(echo "$3" | sed 's/__cr____cn__/ /g')
 	zip "$2" -d $items

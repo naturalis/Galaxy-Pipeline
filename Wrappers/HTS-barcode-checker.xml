@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tool id="HTS-barcode-checker" name="HTS barcode-checker" version="1.3.1" force_history_refresh="True">
+<tool id="HTS-barcode-checker" name="HTS barcode-checker" version="1.4" force_history_refresh="True">
 	<description>Scan a fasta file for CITES species.</description>
 
 	<!-- collect the parameters and provide these to the wrapper script -->
@@ -70,9 +70,9 @@
 	<inputs>
 		<!-- input type and files -->
 		<conditional name="input_type">
-			<param name="input_format" type="select" label="History or ZIP file?">
-				<option value="hist">History</option>
-				<option value="zip">ZIP</option>
+			<param name="input_format" type="select" label="Single file or ZIP archive?">
+				<option value="hist">Single file</option>
+				<option value="zip">ZIP archive</option>
 			</param>
 			<when value="hist">
 				<param name="input_seq" type="data" format="fasta" label="Sequence file" help="FASTA file." />
@@ -154,10 +154,10 @@
 
 	<outputs>
 		<!-- set the output file formats based on the input type provided by the user -->
-		<data format="tabular" name="output_tsv" label="BLAST results">
+		<data format="tabular" name="output_tsv" label="$input_type.input_seq.display_name CITES">
 			<filter>input_type['input_format'] != "zip"</filter>
 		</data>
-		<data format="zip" name="output_zip" label="BLAST results zip">
+		<data format="zip" name="output_zip" label="$input_type.input_zip.display_name CITES">
 			<filter>input_type['input_format'] == "zip"</filter>
 		</data>
 

@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tool id="Split_on_Primer" name="Split on primer" version="1.0" force_history_refresh="True">
+<tool id="Split_on_Primer" name="Split on primer" version="1.1" force_history_refresh="True">
 	<description>Demultiplex a sequence file based on the used primers.</description>
 
 	<!-- collect the parameters and provide these to the wrapper script -->
@@ -32,17 +32,17 @@
 		<conditional name="input_select">
 			<param name="input_type" type="select" label="Input type">
 				<option value="fasta">FASTA</option>
-				<option value="fastq">FASTQ</option>
+				<option value="fastq" selected="true">FASTQ</option>
 				<option value="zip">ZIP</option>
 			</param>
 			<when value="fasta">
-				<param format="fasta" name="input_reads" type="data" label="Read file in FASTA format" />
+				<param format="fasta" name="input_reads" type="data" label="Sequence file in FASTA format" />
 			</when>
 			<when value="fastq">
-				<param format="fastq" name="input_reads" type="data" label="Read file in FASTQ format" />
+				<param format="fastq" name="input_reads" type="data" label="Sequence file in FASTQ format" />
 			</when>
 			<when value="zip">
-				<param format="zip" name="input_reads" type="data" label="ZIP file containing read files" />
+				<param format="zip" name="input_reads" type="data" label="ZIP file containing sequence files" />
 			</when>
 		</conditional>
 		<!-- primer select, either through file or text form -->
@@ -65,16 +65,16 @@
 	</inputs>
 	<outputs>
 		<!-- set the output file format based on the selected input type -->
-		<data format="tabular" name="output" label="$input_select.input_reads.display_name - Demultiplexed sequence files">
+		<data format="tabular" name="output" label="$input_select.input_reads.display_name Demultiplexed">
 			<filter>input_select['input_type'] != "zip"</filter>
 		</data>
-		<data format="zip" name="primer_zip" label="Primer Split ZIP file">
+		<data format="zip" name="primer_zip" label="$input_select.input_reads.display_name Demultiplexed">
 			<filter>input_select['input_type'] == "zip"</filter>
 		</data>
 	</outputs>
 	<tests>
 	</tests>
 	<help>
-		Demultiplex a file containing raw reads based on a set of user provided primers. The tool will create an output file for each primer the user has placed in the primer file.
+		Demultiplex a sequence file based on a set of user provided primers or labels. The tool will create an output file for each primer the user has placed in the primer file.
 	</help>
 </tool>

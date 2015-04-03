@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tool id="Expand_BLAST" name="Expand BLAST results" version="0.2">
+<tool id="Expand_BLAST" name="Expand BLAST results" version="1.0">
         <description>Expand BLAST or HTS-barcode-checker results with the clusters size.</description>
 
         <!-- collect the parameters and provide these to the wrapper script -->
@@ -22,13 +22,13 @@
         <inputs>
 		<!-- get the input type and input files -->
 		<conditional name="input_type">
-			<param name="input_format" type="select" label="History or ZIP file?">
-				<option value="hist">History</option>
-				<option value="zip">ZIP</option>
+			<param name="input_format" type="select" label="Single file or ZIP archive?">
+				<option value="hist">Single file</option>
+				<option value="zip">ZIP archive</option>
 			</param>
 			<when value="hist">
-				<param name="input_blast" type="data" format="tsv" label="BLAST results" help="BLAST tsv file." />
-				<param name="cluster_stat_tsv" type="data" format="tsv" label="Cluster stats file" help="The cluster stats." />
+				<param name="input_blast" type="data" format="tabular" label="BLAST results" help="BLAST tsv file." />
+				<param name="cluster_stat_tsv" type="data" format="txt" label="Cluster stats file" help="The cluster stats." />
 			</when>
 			<when value="zip">
 				<param name="input_zip" type="data" format="zip" label="ZIP file with the BLAST results" help="ZIP file containing the BLAST results in tsv format" />
@@ -39,10 +39,10 @@
 
         <outputs>
 		<!-- set the output files based on the selected input files zip to zip and clstr / tsv to tsv -->
-		<data format="zip" name="output_zip" label="ZIP file with the expanded blast results">
+		<data format="zip" name="output_zip" label="$input_type.input_zip.display_name Expanded">
 			<filter>input_type['input_format'] == "zip"</filter>
 		</data>
-		<data format="tsv" name="output_tsv" label="The expanded blast result">
+		<data format="tabular" name="output_tsv" label="$input_type.input_blast.display_name Expanded">
 			<filter>input_type['input_format'] != "zip"</filter>
 		</data>
         </outputs>

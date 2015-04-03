@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <toolbox>
+  <!-- Regular Galaxy Tools -->
   <label id="basic" text="Base Galaxy Tools" />
   <section id="getext" name="Get Data">
     <tool file="data_source/upload.xml" />
@@ -22,6 +23,7 @@
     <tool file="genomespace/genomespace_importer.xml" />
     <tool file="validation/fix_errors.xml" />
   </section>
+  <!-- not required for our tools
   <section id="send" name="Send Data">
     <tool file="genomespace/genomespace_exporter.xml" />
   </section>
@@ -150,7 +152,7 @@
     
     <label id="fastx_toolkit" text="FASTX-Toolkit for FASTQ data" />
   </section>
-  <!--
+  
   Keep this section commented until it includes tools that
   will be hosted on test/main.  The velvet wrappers have been
   included in the distribution but will not be hosted on our
@@ -160,7 +162,7 @@
   <tool file="sr_assembly/velvetg.xml" />
   <tool file="sr_assembly/velveth.xml" />
   </section>
-  -->
+  
   <section id="solexa_tools" name="NGS: Mapping">
     <tool file="sr_mapping/bfast_wrapper.xml" />
     <tool file="sr_mapping/PerM.xml" />
@@ -174,7 +176,6 @@
   </section>
   <section id="samtools" name="NGS: SAM Tools">
   </section>
-  <!--
   <section id="ngs-simulation" name="NGS: Simulation">
     <tool file="ngs_simulation/ngs_simulation.xml" />
   </section>
@@ -194,13 +195,15 @@
     <tool file="phenotype_association/vcf2pgSnp.xml" />
   </section>
   -->
+
+  <!-- IonTorrent tools -->
   <label id="iontorrent" text="IonTorrent Tools" />
   <section id="identify" name="Cluster and Identification Tools">
     <label id="import" text="Read demultiplexing and filtering" />
+    <tool file="identify/manage_zip.xml" />
     <tool file="identify/Split_on_Primer.xml" />
     <tool file="identify/prinseq_analyze.xml" />
     <tool file="identify/prinseq.xml" />
-    <tool file="identify/manage_zip.xml" />
     <label id="cluster" text="Sequence clustering" />
     <tool file="identify/cluster_and_filter.xml" />
     <tool file="identify/cdhit.xml" />
@@ -210,4 +213,5 @@
     <tool file="identify/HTS-barcode-checker.xml" />
     <tool file="identify/cdhit_expand.xml" />
   </section>
+
 </toolbox>

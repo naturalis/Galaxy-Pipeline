@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<tool id="cdhit_filter" name="CD-HIT filter" version="0.1">
-        <description>CD-HIT cluster filtering.</description>
+<tool id="cdhit_filter" name="Cluster filter" version="1.0">
+        <description>Cluster filtering.</description>
 
         <!-- collect the parameters and provide these to the wrapper script -->
         <command interpreter="bash">
@@ -16,11 +16,11 @@
         <inputs>
                 <param name="clusters" type="data" format="fasta" label="Cluster sequence file" help="FASTA file containing the CD-HIT-EST clusters." />
                 <param name="cluster_stat" type="data" format="txt" label="Cluster stats" help="The CD-HIT-EST clusters stats" />
-		<param name="min_size" type="integer" label="Minimum cluster size" help="The minimum number of reads per cluster." value="2" min="0"/>
+		<param name="min_size" type="integer" label="Minimum cluster size" help="The minimum number of sequences per cluster." value="2" min="0"/>
         </inputs>
 
         <outputs>
-                <data format="fasta" name="filtered_clusters" label="The filtered clusters" /> 
+                <data format="fasta" name="filtered_clusters" label="$clusters.display_name Filtered" /> 
         </outputs>
 
         <tests>

@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<tool id="Abundance_Filter" name="Abundance Filter" version="1.0">
+	<description>Remove singletons and normalize quality.</description>
+
+	<!-- collect the parameters and provide these to the wrapper script -->
+	<command interpreter="bash">
+
+		Abundance_Filter.sh
+		
+		$input_type.input_format
+		#if $input_type.input_format == "hist"
+			$input_type.sequence_type.input_file
+			$output_seq
+		#else
+			$input_type.input_zip
+			$output_zip
+		#end if
+
+		#if $copy_num.value == True
+			"-c"
+		#else
+			" "
+		#end if
+		$min_size
+
+	</command>
+
+	<inputs>
+		<!-- get the input files and input filetypes -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="Single file or ZIP archive?">
+				<option value="hist">Single file</option>
+				<option value="zip">ZIP archive</option>
+			</param>
+			<when value="hist">
+				<conditional name="sequence_type">
+					<param name="sequence_format" type="select" label="FASTA or FASTQ format">
+						<option value="FASTA">FASTA</option>
+						<option value="FASTQ">FASTQ</option>
+					</param>
+					<when value="FASTA">
+						<param name="input_file" type="data" format="fasta" label="Sequence FASTA file" help="FASTA file." />
+					</when>
+					<when value="FASTQ">
+						<param name="input_file" type="data" format="fastq" label="Sequence FASTQ file" help="FASTQ file." />
+					</when>
+				</conditional>
+			</when>
+			<when value="zip">
+				<param name="input_zip" type="data" format="zip" label="ZIP file containing the sequences" help="ZIP file." />
+			</when>
+		</conditional>
+
+		<!-- filter arguments -->
+		<param name="min_size" type="integer" label="Minimum sequence number" help="The minimum number of sequences per group." value="2" min="0"/>
+		<param name="copy_num" type="boolean" checked="false" label="Preserve the copy number" help="Preserve the copy number, usefull for abundance estimates after identification." />
+	</inputs>
+
+	<outputs>
+		<!-- set the output file types based on the input types if the input
+			is zip, return a zip file, if the input is a fasta file
+			return both the clustered fasta file and the stats txt file -->
+		<data format="fasta" name="output_seq" label="$input_type.sequence_type.input_file.display_name Abundance Filter">
+			<filter>input_type['input_format'] != "zip"</filter>
+			<change_format>
+				<when input="input_type.sequence_type.sequence_format" value="FASTQ" format="fastq"/>
+			</change_format>
+		</data>
+		<data format="zip" name="output_zip" label="$input_type.input_zip.display_name Abundance Filter">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+		Remove sequences that occur n-times or less (for example singletons), smooths the quality of sequences that appear above the threshold.
+	</help>
+
+</tool>

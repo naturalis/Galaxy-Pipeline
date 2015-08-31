@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<tool id="De_novo_assembly" name="De novo assembly" version="1.0">
+	<description>De novo assembly of the barcoding regions.</description>
+
+	<!-- collect the parameters and provide these to the wrapper script -->
+	<command interpreter="bash">
+
+		DeNovo.sh
+
+		$input_type.input_format
+		
+		#if $input_type.input_format == "hist"
+			$input_type.input_seq
+			$output_seq
+		#else
+			$input_type.input_zip
+			$output_zip
+		#end if
+	
+		$assembler_select.denovo
+		
+		#if $assembler_select.denovo == "Abyss"
+			$assembler_select.pid_a
+			$assembler_select.coverage
+			$assembler_select.pid_m
+			$assembler_select.ab_l
+			$assembler_select.min_k
+			$assembler_select.max_k
+			$assembler_select.k_step
+		#else
+			$assembler_select.kmer
+			$assembler_select.sd_l
+			$assembler_select.d_off
+			$assembler_select.mrlen
+		#end if
+
+	</command>
+
+	<inputs>
+		<!-- get the input files and input filetypes -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="Single file or ZIP archive?">
+				<option value="hist">Single file</option>
+				<option value="zip">ZIP archive</option>
+			</param>
+			<when value="hist">
+				<param name="input_seq" type="data" format="fastq" label="Sequence file" help="FASTQ file." />
+			</when>
+			<when value="zip">
+				<param name="input_zip" type="data" format="zip" label="ZIP file containing the sequences" help="ZIP file." />
+			</when>
+		</conditional>
+
+		<!-- Get the De novo assembler -->
+		<conditional name="assembler_select">
+			<param name="denovo" type="select" label="De novo assembler">
+				<option value="Abyss">Trans-Abyss</option>
+				<option value="SOAP">SOAPdenovo-trans</option>
+			</param>
+			<when value="Abyss">
+				<!-- Abyss settings -->
+				<param name="pid_a" type="float" label="sequence identity" help="Minimum sequence similarity for sequence merging (higher is stricter)" value="0.95" min="0" max="1" />
+				<param name="coverage" type="integer" label="kmer coverage" help="Minimum kmer coverage per contig" value="2" min="0" max="1000" />
+				<param name="pid_m" type="float" label="contig identity" help="Minimum contig similarity for contig merging (higher is stricter)" value="0.95" min="0" max="1" />
+				<param name="ab_l" type="integer" label="contig length" help="Minimum scaffold length" value="100" min="0" />
+				<param name="min_k" type="integer" label="min k" help="Minimum k-mer value for assembly" value="15" min="15" max="125" />
+				<param name="max_k" type="integer" label="max k" help="Maximum k-mer value for assembly (should be smaller than the minimum read length)" value="63" min="17" max="127" />
+				<param name="k_step" type="integer" label="k step" help="Number of kmer steps between min-k and max-k (max value = (max-k - min-k)/2 ), if step = 1, only use the max-k value" value="4" min="1" max="25" />
+			</when>
+			<when value="SOAP">
+				<!-- SOAP settings -->
+				<param name="kmer" type="integer" label="kmer value" help="kmer value used for assembly (should be lower then minimum read length)" value="21" min="15" max="127" />
+				<param name="sd_l" type="integer" label="contig length" help="Minimum contig length" value="100" min="0" />
+				<param name="d_off" type="integer" label="kmer cutoff" help="kmer cutoff value (higher values reduce miss assembled contigs at the cost of ignoring rare contigs)" value="0" min="0" max="100" />
+				<param name="mrlen" type="integer" label="max read length" help="Maximum read length (find with the analyze / trim tools). Reads longer than the max length will be trimmed down to the maximum length" value="500" min="0" />
+			</when>
+		</conditional>
+
+	</inputs>
+
+	<outputs>
+		<!-- set the output file types based on the input types if the input
+			is zip, return a zip file, if the input is a fasta file
+			return both the clustered fasta file and the stats txt file -->
+		<data format="zip" name="output_zip" label="$input_type.input_zip.display_name Assembled">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+		<data format="fasta" name="output_seq" label="$input_type.input_seq.display_name Assembled">
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+		Assemble the reads with either Trans-Abyss or SOAPdenovo-Trans to contigs.
+	</help>
+
+</tool>

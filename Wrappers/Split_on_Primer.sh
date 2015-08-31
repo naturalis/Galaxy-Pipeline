@@ -32,6 +32,8 @@ then
 			# replace spaces in the filenames, space-less names are required
 			# in order to retrieve the files after splitting.
 			file="${file// /-}"
+			# Skip the folder structure in the zip if present.
+			#file="{file##*/}"
 			# Run the Split on primer tool, capture the file list output
 			Split_files=$(Split_on_Primer -f $ziped -p "$5" -m "$6" -s "$7" ${8})
 			# for each filename in the filelist produced by the Split_on_Primer tool
@@ -45,8 +47,12 @@ then
 					rm $split
 				else
 					# get the output file and zip it to the temp zip file
+					#echo $split $ziped $file
+					#echo $(echo ${split/${ziped%.*}/${file%.*}})
 					new=$(echo ${split/${ziped%.*}/${file%.*}} | sed -e "s/\..*/.${file#*.}/")
+					#echo $new
 					mv $split $new
+					#echo "Adding file to ZIP"
 					zip -q -9 "$temp_zip" $new
 					# remove the left over file
 					rm $new
@@ -57,6 +63,7 @@ then
 		fi
 	done
 	# move the temp zip to the output zip location so that galaxy can find it
+	echo $temp_zip $9
 	mv $temp_zip $9
 
 # if non-zipped data is suplied

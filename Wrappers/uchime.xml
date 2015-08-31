@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<tool id="uchime" name="Chimera removal" version="1.0">
+	<description>Remove chimeric sequences</description>
+
+	<!-- collect the parameters and provide these to the wrapper script -->
+	<command interpreter="bash">
+
+		uchime.sh
+		$input_type.input_format
+		#if $input_type.input_format == "hist"
+			$input_type.input_seq
+			$nonchime
+		#else
+			$input_type.input_zip
+			$output_zip
+		#end if
+
+	</command>
+
+	<inputs>
+		<!-- get the input files and input filetypes -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="Single file or ZIP archive?">
+				<option value="hist">Single file</option>
+				<option value="zip">ZIP archive</option>
+			</param>
+			<when value="hist">
+				<param name="input_seq" type="data" format="fasta" label="Sequence file" help="FASTA file." />
+			</when>
+			<when value="zip">
+				<param name="input_zip" type="data" format="zip" label="ZIP file containing the sequences" help="ZIP file." />
+			</when>
+		</conditional>
+
+	</inputs>
+
+	<outputs>
+		<!-- set the output file types based on the input types if the input
+			is zip, return a zip file, if the input is a fasta file
+			return both the clustered fasta file and the stats txt file -->
+		<data format="zip" name="output_zip" label="$input_type.input_zip.display_name nonChimera">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+		<data format="fasta" name="nonchime" label="$input_type.input_seq.display_name nonChimera">
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+		Use the uchime denovo tool from the usearch package to remove chimeric sequences from an amplicon set.
+	</help>
+
+</tool>

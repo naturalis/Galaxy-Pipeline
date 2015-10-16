@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "$@"
-
 # check if a local database will be used for BLASTING.
 # If so alter the paths so that the local blast tool
 # can find the reference databases.
@@ -13,34 +11,15 @@ then
 	# be adjusted for your system.
 	for db in $(echo "$9" | tr "," "\t")
 	do
-		# for each non history blast database
-		if [ "$db" != "user" ]
+		# if the nt database is selected, alter
+		# the path
+		if [ "$db" == "nt" ]
 		then
-			# if the nt database is selected, alter
-			# the path
-			if [ "$db" == "nt" ]
-			then
-				temp+="/home/galaxy/GenBank/nt "
-			# else, alter the path based on the
-			# extra_ref folder
-			else
-				temp+="/home/galaxy/Extra_Ref/"$db" "
-			fi
+			temp+="/home/galaxy/GenBank/nt "
+		# else, alter the path based on the
+		# extra_ref folder
 		else
-			# create tmp directory for the blast DB's
-			tempdir=$(mktemp -d /home/galaxy/Extra_Ref/XXXXXX)
-
-			# walk through the list of selected history
-			# blast ZIP file. Unpack these and add them to
-			# the temp BLAST db list.
-			for zdb in $(echo "${10}" | tr "," "\t")
-			do
-				# extract to the temp directory
-				path=$(unzip -j "$zdb" -d "$tempdir" | tail -n 1 | cut -f2 -d ":")
-
-				# add file to temp
-				temp+="${path%.nsq*} "
-			done
+			temp+="/home/galaxy/Extra_Ref/"$db" "
 		fi
 	done
 	temp=$(echo $temp | sed 's/ $//')
@@ -52,8 +31,6 @@ else
 		set -- "${@:1:3}" "20" "${@:5}"
 	fi
 fi
-
-echo "$@"
 
 # If a zip file is provided, run the blast tool for each zip file
 # and return the results in a new zip.
@@ -126,10 +103,4 @@ else
 		fi
 	fi
 	rm "${plain}"
-fi
-
-if [ -n "${tempdir+1}" ]
-then
-	rm "$tempdir"/*
-	rmdir "$tempdir"
 fi

@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<tool id="makeblastdb" name="Create BLAST database" version="1.0">
+	<description>Create a local BLAST database.</description>
+
+	<!-- collect the parameters and provide these to the wrapper script -->
+	<command interpreter="bash">
+
+		makeblastdb.sh
+		$input_fasta
+		$output_zip
+
+	</command>
+
+	<inputs>
+		<!-- Select FASTA file -->
+		<param name="input_fasta" format="fasta" type="data" label="FASTA file" help="The FASTA file that will be used to create the BLAST database." />
+	</inputs>
+
+	<outputs>
+		<!-- The output file for the BLAST database -->
+		<data format="zip" name="output_zip" label="$input_fasta.display_name BLAST database" />
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+		Convert the selected FASTA file to a BLAST database that can be used as input for the BLAST wrapper. The BLAST database is stored in the user history as a zip file.
+	</help>
+
+</tool>

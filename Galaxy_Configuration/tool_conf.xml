@@ -202,16 +202,22 @@
     <label id="import" text="Read demultiplexing and filtering" />
     <tool file="identify/manage_zip.xml" />
     <tool file="identify/Split_on_Primer.xml" />
+    <tool file="identify/Abundance_Filter.xml" />
+    <tool file="identify/uchime.xml" />
     <tool file="identify/prinseq_analyze.xml" />
     <tool file="identify/prinseq.xml" />
     <label id="cluster" text="Sequence clustering" />
     <tool file="identify/cluster_and_filter.xml" />
     <tool file="identify/cdhit.xml" />
     <tool file="identify/cdhit_filter.xml" />
+    <tool file="identify/DeNovo.xml" />
     <label id="iden" text="Identification" />
+    <tool file="identify/makeblastdb.xml" />
     <tool file="identify/blast.xml" />
     <tool file="identify/HTS-barcode-checker.xml" />
     <tool file="identify/cdhit_expand.xml" />
+    <tool file="identify/krona.xml" />
+    <tool file="identify/Compare_BLAST.xml" />
   </section>
 
 </toolbox>

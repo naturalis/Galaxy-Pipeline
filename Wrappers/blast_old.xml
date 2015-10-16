@@ -23,13 +23,9 @@
 		#if $location.blast_loc == "local"
 			-lb
 			$location.blast_db
-		#elif $location.blast_loc == "user"
-			-lb
-			user
-			$location.blastdb_zip
 		#else
-			$location.online_blast_database.blast_al
-			$location.online_blast_database.blast_db
+			$location.blast_database.blast_al
+			$location.blast_database.blast_db
 		#end if
 		
         </command>
@@ -73,15 +69,14 @@
 
 		<!-- determine the blast type (online vs offline) -->
 		<conditional name="location">
-			<param name="blast_loc" type="select" label="Online (NCBI GenBank) / Local BLAST / User BLAST database">
+			<param name="blast_loc" type="select" label="Online (NCBI GenBank) / Local BLAST">
 				<option value="online">NCBI online BLAST</option>
 				<option value="local" selected="true">Local BLAST</option>
-				<option value="user">User BLAST database</option>
 			</param>
 
 			<!-- online blast settings -->
 			<when value="online">
-				<conditional name="online_blast_database">
+				<conditional name="blast_database">
 					<param name="blast_al" type="select" label="BLAST algorithm">
 						<option value="blastn" selected="true">BLASTn</option>
 						<option value="blastp">BLASTp</option>
@@ -112,16 +107,11 @@
 				<param name="blast_db" type="select" multiple="true" label="Local BLAST database">
 					<option value="nt" selected="true">GenBank Nucleotide Database</option>
 					<option value="BoLD_combined_filtered.fasta">Filtered BoLD Database (Only sequenced identified to species level)</option>
-                       	                <option value="BoLD_combined_unfiltered.fasta">Unfiltered BoLD Database (All sequences)</option>
+                                        <option value="BoLD_combined_unfiltered.fasta">Unfiltered BoLD Database (All sequences)</option>
 					<option value="sh*fasta">UNITE Fungal ITS Database</option>
 					<option value="SILVA*SSU*fasta">SILVA SSU (16S and 18S) Database</option>
 					<option value="SILVA*LSU*fasta">SILVA LSU (23S and 28S) Database</option>
 				</param>
-			</when>
-
-			<!-- User blast database select -->
-			<when value="user">
-				<param name="blastdb_zip" type="data" format="zip" multiple="true" label="ZIP file containing the BLAST database" help="BLAST database created by the makeblastdb function in Galaxy." />
 			</when>
 
 		</conditional>

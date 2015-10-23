@@ -178,6 +178,8 @@ The tool will BLAST each sequence against through the NCBI servers, try to limit
 
 Additional files are CITES databases (if non provided the tools will download a new copy, however this can take some time) and blacklist files (genbank IDs that are incorrectly annotated), both these files can be uploaded with the default galaxy "get data" function (datatype can be set to "txt").
 
+Reference:  Lammers Y, Peelen T, Vos RA, Gravendeel B. The HTS barcode checker pipeline, a tool for automated detection of illegally traded species from high-throughput sequencing data. <i>BMC Bioinformatics</i> 2014, <b>15</b>:44.
+
 	</help>
 
 </tool>

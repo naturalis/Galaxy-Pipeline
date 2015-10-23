@@ -94,5 +94,7 @@
 
 	<help>
 		Compare the output from multiple BLAST files. The output is a new BLAST file that compares the number of hits / reads (if abundance info is present in the BLAST files) between the different samples. A Krona piechart to vizualize the distribution of the different BLAST results between the samples. And finally, if abundance data is present, a heat map that clusters the BLAST hits and samples. For the input file, only the first BLAST hit for each cluster is used, using multiple hits per cluster would skew the abundance output.
+
+		Krona (tool that created the piechart) reference:  Ondov BD, Bergman NH, Phillippy AM. Interactive metagenomic visualization in a Web browser. <i>BMC Bioinformatics</i> 2011, <b>12</b>:385.
 	</help>
 </tool>

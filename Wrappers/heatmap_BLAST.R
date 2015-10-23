@@ -1,13 +1,9 @@
 #!/usr/bin/env Rscript
 
-# [input.tsv] [output.png] [Rank name] [Rank position]
-
 library("phyloseq")
 library("ggplot2")
 library("scales")
 library("grid")
-
-commandArgs(TRUE)
 
 rawdata <- read.table(commandArgs(TRUE)[1], header=TRUE, sep="\t", stringsAsFactors=FALSE)
 otudata = as.matrix(rawdata[,seq(8,ncol(rawdata),by=2)])
@@ -26,7 +22,6 @@ physeqF = tax_glom(physeq, commandArgs(TRUE)[3])
 physeqF5k = prune_samples(sample_sums(physeqF)>=5000, physeqF)
 physeqF5kR = rarefy_even_depth(physeqF5k)
 
-commandArgs(TRUE)[5]
 if(commandArgs(TRUE)[5] == "order") {
 	plot <- plot_heatmap(physeqF5kR, "NMDS", "bray", "Sample", "Taxonomy", taxa.order=commandArgs(TRUE)[3])
 } else {

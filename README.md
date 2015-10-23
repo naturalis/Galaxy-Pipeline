@@ -33,14 +33,14 @@ NCBI-BLAST+ 2.2.28 is available in the Ubuntu repositories (14.04 or higher) and
 
 # Additional scripts
 The following Git repositories contain script for filtering and manipulating data and are used by the Galaxy wrappers. Clone the Git repositories and create symbolic links to the `/usr/local/bin` directory for the relevant script.
- - https://github.com/Y-Lammers/BLAST\_wrapper, create a symbolic link for `BLAST_wrapper.py`.
- - https://github.com/Y-Lammers/Add\_taxonomy, create a symbolic link for `Add_taxonomy.py`.
+ - https://github.com/Y-Lammers/BLAST_wrapper, create a symbolic link for `BLAST_wrapper.py`.
+ - https://github.com/Y-Lammers/Add_taxonomy, create a symbolic link for `Add_taxonomy.py`.
  - https://github.com/naturalis/HTS-barcode-checker, create a symbolic link for `HTS-barcode-checker`.
- - https://github.com/Y-Lammers/Abundance\_Filter, create a symbolic link for `Abundance_filter.py`.
+ - https://github.com/Y-Lammers/Abundance_Filter, create a symbolic link for `Abundance_filter.py`.
  - https://github.com/Y-Lammers/CD-HIT-Filter, create a symbolic link for `CD-HIT-Filter.py`.
- - https://github.com/Y-Lammers/Compare\_BLAST, create a symbolic link for `Compare_BLAST.py`.
- - https://github.com/Y-Lammers/Resize\_nonChimera, create a symbolic link for `Resize_nonChimera.py`.
- - https://github.com/naturalis/Split\_on\_Primer, create a symbolic link for `Split_on_Primer.py`.
+ - https://github.com/Y-Lammers/Compare_BLAST, create a symbolic link for `Compare_BLAST.py`.
+ - https://github.com/Y-Lammers/Resize_nonChimera, create a symbolic link for `Resize_nonChimera.py`.
+ - https://github.com/naturalis/Split_on_Primer, create a symbolic link for `Split_on_Primer.py`.
 
 # uchime / usearch
 Get a copy of usearch from http://www.drive5.com/usearch/download.html (tested for version 7.\*, though newer versions should work). Create a symbolic link for usearch to `/usr/local/bin`.

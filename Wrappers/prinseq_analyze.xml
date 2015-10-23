@@ -69,6 +69,8 @@
 	
 	<help>
 		Use PRINSEQ to analyze a set of sequenes (FASTQ or FASTA format). The tool will produce a HTML report that contains detailed information about the input sequences, this data can be used for more accurate filtering of the input data. Note: If a ZIP file is provided only the first 25k sequences per file will be used for the analysis in order to reduce computational time.
+
+		Reference: Schmieder R and Edwards R. Quality control and preprocessing of metagenomic datasets. <i>Bioinformatics</i> 2011, <b>27</b>:863-864. 
 	</help>
 
 </tool>

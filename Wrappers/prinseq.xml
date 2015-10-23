@@ -136,15 +136,15 @@
                 <param name="trim_right" type="integer" label="Trim '3 end" help="Trim the n bases on the '3 end." value="0" min="0"/>
                 <param name="trim_qual_left" type="integer" label="Trim the '5 end based on quality" help="Trim the '5 bases if the are below the quality threshold." value="0" min="0"/>
                 <param name="trim_qual_right" type="integer" label="Trim the '3 end based on quality" help="Trim the '3 bases if the are below the quality threshold." value="0" min="0"/>
-                <param name="trim_to_len" type="integer" label="Trim to length" help="Trim the '5 end till the sequence meets the desired length." value="0" min="0"/>
+                <param name="trim_to_len" type="integer" label="Trim to length" help="Trim the '3 end till the sequence meets the desired length." value="0" min="0"/>
 
 		<!-- Arguments for sequence filtering -->
 		<param name="min_len" type="integer" label="Minimum read length" help="The minimum sequence length." value="0" min="0"/>
                 <param name="max_len" type="integer" label="Maximum read length" help="The maximum sequence length." value="0" min="0"/>
-                <param name="min_qual_score" type="integer" label="Minimum quality" help="The minimum base quality allowed per sequence." value="0" min="0"/>
-                <param name="max_qual_score" type="integer" label="Maximum quality" help="The maximum base quality allowed per sequence." value="0" min="0"/>
                 <param name="min_qual_mean" type="integer" label="Minimum mean quality" help="The minimum mean quality per sequence." value="0" min="0"/>
                 <param name="max_qual_mean" type="integer" label="Maximum mean quality" help="The maximum mean quality per sequence." value="0" min="0"/>
+                <param name="min_qual_score" type="integer" label="Minimum quality" help="The minimum base quality allowed per sequence." value="0" min="0"/>
+                <param name="max_qual_score" type="integer" label="Maximum quality" help="The maximum base quality allowed per sequence." value="0" min="0"/>
 
 		<conditional name="dup">
 			<param name="derep" type="select" label="Remove duplicate sequences.">
@@ -179,6 +179,8 @@
 	
 	<help>
 		The PRINSEQ sequence filter / converter tool. Use PRINSEQ to either cleanup raw sequence data (by filtering or trimming) or converting data from one file format into the other (FASTQ > FASTA). The order in which the filter and trim settins are applied to the reads matches the order in which they are listed on the options form.
+
+		Reference: Schmieder R and Edwards R. Quality control and preprocessing of metagenomic datasets. <i>Bioinformatics</i> 2011, <b>27</b>:863-864. 
 	</help>
 
 </tool>

@@ -19,7 +19,7 @@ To automatically start Galaxy after booting the system, add the `galaxy` file in
 # R
 The `Visualize BLAST` and `Clustering` wrappers use R (version 3.2 or higher) and the following packages:
  - ggplot2
- - [phyloseq (1.7.6 or higher)](http://joey711.github.io/phyloseq/)
+ - [phyloseq (1.7.6 or higher)](http://joey711.github.io/phyloseq/) (The Bioconductor version might be outdated, the github version is prefered.)
 Make sure these (and the dependencies are installed).
 
 # CD-HIT-EST

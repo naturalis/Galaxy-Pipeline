@@ -95,6 +95,10 @@
 
 	<help>
 		Assemble the reads with either Trans-Abyss or SOAPdenovo-Trans to contigs.
+
+		Trans-Abyss reference: Robertson G, Schein J, Chiu R, Corbett R, Field M,  Jackman SD, <i>et al</i>. De novo assembly and analysis of RNA-seq data. <i>Nature methods</i> 2010, <b>7(11)</b>:909–12.
+
+		SOAPdenovo-trans reference: Xie Y, Wu G, Tang J, Luo R, Patterson J, Liu S, <i>et al</i>. SOAPdenovo-Trans: de novo transcriptome assembly with short RNA-Seq reads. <i>Bioinformatics </i> 2014, <b>30(12)</b>:1660–6.
 	</help>
 
 </tool>

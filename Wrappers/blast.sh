@@ -11,7 +11,7 @@ then
 	# walk through the list of selected reference
 	# databases. Note! These paths might have to
 	# be adjusted for your system.
-	for db in $(echo "$9" | tr "," "\t")
+	for db in $(echo "${10}" | tr "," "\t")
 	do
 		# for each non history blast database
 		if [ "$db" != "user" ]
@@ -33,7 +33,7 @@ then
 			# walk through the list of selected history
 			# blast ZIP file. Unpack these and add them to
 			# the temp BLAST db list.
-			for zdb in $(echo "${10}" | tr "," "\t")
+			for zdb in $(echo "${11}" | tr "," "\t")
 			do
 				# extract to the temp directory
 				path=$(unzip -j "$zdb" -d "$tempdir" | tail -n 1 | cut -f2 -d ":")
@@ -45,7 +45,7 @@ then
 	done
 	temp=$(echo $temp | sed 's/ $//')
 	# alter the bash arguments with the new paths.
-	set -- "${@:1:8}" "$temp"
+	set -- "${@:1:9}" "$temp"
 else
 	# set the max hs size to 20 if larger
 	if [ "$4" -gt 20 ]; then
@@ -80,7 +80,7 @@ then
 			# Set up the BLAST command and capture the output
 			if [ "$8" == "-lb" ]; then
 				# local commanand / SET OUTPUT FILE
-				BLAST_wrapper -i "$file" -o "$plain" -bd "${@:9}" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
+				BLAST_wrapper -i "$file" -o "$plain" -task "${9}" -bd "${@:10}" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
 				/home/galaxy/Tools/Add_taxonomy/Add_taxonomy.py /home/galaxy/Extra_Ref/nodes.dmp /home/galaxy/Extra_Ref/taxonid_names.tsv "$plain" "$output"
 			else
 				# check if the file contains less then a 100 reads, if more skip the online blast
@@ -110,8 +110,10 @@ else
 	plain="${2%.*}"_temp.tsv
 
 	if [ "$8" == "-lb" ]; then
+		echo "${9}"
+		echo "${@:10}"
 		# the command for local blasting
-		BLAST_wrapper -i "$2" -o "$plain" -bd "${@:9}" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
+		BLAST_wrapper -i "$2" -o "$plain" -task "${9}" -bd "${@:10}" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
 		/home/galaxy/Tools/Add_taxonomy/Add_taxonomy.py /home/galaxy/Extra_Ref/nodes.dmp /home/galaxy/Extra_Ref/taxonid_names.tsv "$plain" "$3"
 	else
 		# check if the file contains less then a 100 reads, if more skip the online blast

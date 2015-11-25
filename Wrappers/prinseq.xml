@@ -49,6 +49,11 @@
 			-trim_to_len $trim_to_len
 		#end if
 
+		#if int($trim_qual_window) > 1
+			-trim_qual_window $trim_qual_window
+			-trim_qual_step $trim_qual_window
+		#end if
+
 		#if int($min_len) > 0		
 			-min_len $min_len
 		#end if
@@ -137,6 +142,7 @@
                 <param name="trim_qual_left" type="integer" label="Trim the '5 end based on quality" help="Trim the '5 bases if the are below the quality threshold." value="0" min="0"/>
                 <param name="trim_qual_right" type="integer" label="Trim the '3 end based on quality" help="Trim the '3 bases if the are below the quality threshold." value="0" min="0"/>
                 <param name="trim_to_len" type="integer" label="Trim to length" help="Trim the '3 end till the sequence meets the desired length." value="0" min="0"/>
+		<param name="trim_qual_window" type="integer" label="Window size for quality trimming" help="Use a window for quality trimming." value="1" min="1" max="100"/>
 
 		<!-- Arguments for sequence filtering -->
 		<param name="min_len" type="integer" label="Minimum read length" help="The minimum sequence length." value="0" min="0"/>

@@ -112,8 +112,8 @@
 			<!-- local blast settings -->
 			<when value="local">
 				<param name="blast_db" type="select" multiple="true" label="Local BLAST database">
-					<option value="nt_clean" selected="true">GenBank Filtered Nucleotide Database (No environmental and uncultured samples)</option>
-					<option value="nt">GenBank Unfiltered Nucleotide Database</option>
+					<option value="nt_clean">GenBank Filtered Nucleotide Database (No environmental and uncultured samples)</option>
+					<option value="nt" selected="true">GenBank Nucleotide Database</option>
 					<option value="BoLD_combined_filtered.fasta">Filtered BoLD Database (Only sequenced identified to species level)</option>
 		       			<option value="BoLD_combined_unfiltered.fasta">Unfiltered BoLD Database (All sequences)</option>
 					<option value="sh*fasta">UNITE Fungal ITS Database (Release August 2015)</option>

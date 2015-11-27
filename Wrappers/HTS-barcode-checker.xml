@@ -116,8 +116,8 @@
 			</when>
 			<when value="local">
 				<param name="blast_loc_db" type="select" multiple="true" label="Local BLAST database">
-					<option value="/home/galaxy/GenBank/nt_clean" selected="true">GenBank Filtered Nucleotide Database (No environmental and uncultured samples)</option>
-					<option value="/home/galaxy/GenBank/nt">GenBank Unfiltered Nucleotide Database</option>
+					<option value="/home/galaxy/GenBank/nt_clean">GenBank Filtered Nucleotide Database (No environmental and uncultured samples)</option>
+					<option value="/home/galaxy/GenBank/nt" selected="true">GenBank Nucleotide Database</option>
 				</param>
 			</when>
 		</conditional>

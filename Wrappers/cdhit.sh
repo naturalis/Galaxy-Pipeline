@@ -20,7 +20,7 @@ grep -B 1 "^>" $4 | grep "^[^>-]" > $4".tsv"
 tail -1 $4 >> $4".tsv"
 
 # use the R script to create a histogram of the cluster sizes
-cdhit_hist.R $4".tsv" $5".png"  > /dev/null 2>&1
+CDHit_Hist $4".tsv" $5".png"  > /dev/null 2>&1
 
 # remove the tsv file and send the histogram to galaxy
 rm $4".tsv"

@@ -16,7 +16,7 @@ then
 	set -- "${@:1:9}" "${11}" "${@:13}"
 else
 	# if no database is provided, get the default CITES_db from the identify tool folder
-	CITES_db="/home/galaxy/Extra_Ref/CITES_db.csv"
+	CITES_db="/home/galaxy/ExtraRef/CITES_db.csv"
 	# run the Retrieve CITES script to update the default file if needed
 	/home/galaxy/Tools/HTS-barcode-checker/src/Retrieve_CITES.py -db "${CITES_db}" > /dev/null 2>&1
 	# copy the default CITES db so it can be included in the galaxy history
@@ -56,13 +56,13 @@ then
 			# Run the HTS-barcode-checker command and capture the output
 			if [ "$4" == "-lb" ]; then
 				# local commanand
-				HTS-barcode-checker -i "$file" -o "$output" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
+				HTS-Barcode-Checker -i "$file" -o "$output" -lb -tf /home/galaxy/ExtraRef/taxonid_names.tsv -bd "$5" -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
 			else
 				# check if the file contains less then a 100 reads, if more skip the online blast
 				# to prevent flooding of the ncbi servers
 				if [ $(grep -c ">" "$file") -le 100 ]; then
 					# online command
-					HTS-barcode-checker -i "$file" -o "$output" -ba "$4" -bd "$5"  -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
+					HTS-Barcode-Checker -i "$file" -o "$output" -ba "$4" -bd "$5"  -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
 				else
 					# if more then a 100 reads, write the following output
 					echo "$file contains to many reads for online blasting, switch to local blast" > "$output"
@@ -81,13 +81,13 @@ then
 else
 	if [ "$4" == "-lb" ]; then
 		# local blast command
-		HTS-barcode-checker -i "$2" -o "$3" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
+		HTS-Barcode-Checker -i "$2" -o "$3" -lb -tf /home/galaxy/ExtraRef/taxonid_names.tsv -bd "$5" -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
 	else
 		# check if the file contains less then a 100 reads, if more skip the online blast
 		# to prevent flooding of the ncbi servers
 		if [ $(grep -c ">" "$2") -le 100 ]; then
 			# online blast command
-			HTS-barcode-checker -i "$2" -o "$3" -ba "$4" -bd "$5"  -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
+			HTS-Barcode-Checker -i "$2" -o "$3" -ba "$4" -bd "$5"  -hs "$6" -mi "$7" -mc "$8" -me "$9" -ad -cd "${@:10}" > /dev/null 2>&1
 		else
 			# if more then a 100 reads, write the following output
 			echo "$file contains to many reads for online blasting, switch to local blast" > "$3"

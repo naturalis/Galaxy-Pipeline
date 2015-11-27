@@ -32,7 +32,7 @@ then
 
 	# run the prinseq tools on the temp file
 	prinseq-lite "$2" $temp -out_good null -out_bad null -graph_data "$4" > /dev/null 2>&1
-	prinseq-graph -i "$4" -html_all -o "$4"
+	prinseq-graphs -i "$4" -html_all -o "$4"
 
 	# move and remove the output and temp file
 	mv "${4}.html" "$4"
@@ -41,7 +41,7 @@ then
 else
 	# run the prinseq tools
 	prinseq-lite "$2" "$3" -out_good null -out_bad null -graph_data "$4" > /dev/null 2>&1
-	prinseq-graph -i "$4" -html_all -o "$4"
+	prinseq-graphs -i "$4" -html_all -o "$4"
 	# move the output files to the expected paths
 	mv "${4}.html" "$4"
 fi

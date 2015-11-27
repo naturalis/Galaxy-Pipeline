@@ -26,6 +26,7 @@
 			$location.blast_db
 		#elif $location.blast_loc == "user"
 			-lb
+			megablast
 			user
 			$location.blastdb_zip
 		#else
@@ -111,12 +112,13 @@
 			<!-- local blast settings -->
 			<when value="local">
 				<param name="blast_db" type="select" multiple="true" label="Local BLAST database">
-					<option value="nt" selected="true">GenBank Nucleotide Database</option>
+					<option value="nt_clean" selected="true">GenBank Filtered Nucleotide Database (No environmental and uncultured samples)</option>
+					<option value="nt">GenBank Unfiltered Nucleotide Database</option>
 					<option value="BoLD_combined_filtered.fasta">Filtered BoLD Database (Only sequenced identified to species level)</option>
 		       			<option value="BoLD_combined_unfiltered.fasta">Unfiltered BoLD Database (All sequences)</option>
-					<option value="sh*fasta">UNITE Fungal ITS Database</option>
-					<option value="SILVA*SSU*fasta">SILVA SSU (16S and 18S) Database</option>
-					<option value="SILVA*LSU*fasta">SILVA LSU (23S and 28S) Database</option>
+					<option value="sh*fasta">UNITE Fungal ITS Database (Release August 2015)</option>
+					<option value="SILVA*SSU*fasta">SILVA SSU (16S and 18S) Database (Release 123)</option>
+					<option value="SILVA*LSU*fasta">SILVA LSU (23S and 28S) Database (Release 123)</option>
 				</param>
 
 				<param name="task" type="select" multiple="false" label="BLAST task">

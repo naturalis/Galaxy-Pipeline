@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "$@"
-
 # check if a local database will be used for BLASTING.
 # If so alter the paths so that the local blast tool
 # can find the reference databases.
@@ -18,17 +16,17 @@ then
 		then
 			# if the nt database is selected, alter
 			# the path
-			if [ "$db" == "nt" ]
+			if [ "$db" == "nt" ] || [ "$db" == "nt_clean" ]
 			then
-				temp+="/home/galaxy/GenBank/nt "
+				temp+="/home/galaxy/GenBank/${db} "
 			# else, alter the path based on the
 			# extra_ref folder
 			else
-				temp+="/home/galaxy/Extra_Ref/"$db" "
+				temp+="/home/galaxy/ExtraRef/"$db" "
 			fi
 		else
 			# create tmp directory for the blast DB's
-			tempdir=$(mktemp -d /home/galaxy/Extra_Ref/XXXXXX)
+			tempdir=$(mktemp -d /home/galaxy/ExtraRef/XXXXXX)
 
 			# walk through the list of selected history
 			# blast ZIP file. Unpack these and add them to
@@ -52,8 +50,6 @@ else
 		set -- "${@:1:3}" "20" "${@:5}"
 	fi
 fi
-
-echo "$@"
 
 # If a zip file is provided, run the blast tool for each zip file
 # and return the results in a new zip.
@@ -80,15 +76,15 @@ then
 			# Set up the BLAST command and capture the output
 			if [ "$8" == "-lb" ]; then
 				# local commanand / SET OUTPUT FILE
-				BLAST_wrapper -i "$file" -o "$plain" -task "${9}" -bd "${@:10}" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
-				/home/galaxy/Tools/Add_taxonomy/Add_taxonomy.py /home/galaxy/Extra_Ref/nodes.dmp /home/galaxy/Extra_Ref/taxonid_names.tsv "$plain" "$output"
+				BLAST_Wrapper -i "$file" -o "$plain" -task "${9}" -bd "${@:10}" -lb -tf /home/galaxy/ExtraRef/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
+				Add_Taxonomy /home/galaxy/ExtraRef/nodes.dmp /home/galaxy/ExtraRef/taxonid_names.tsv "$plain" "$output"
 			else
 				# check if the file contains less then a 100 reads, if more skip the online blast
 				# to prevent flooding of the ncbi servers
 				if [ $(grep -c ">" "$file") -le 100 ]; then
 					# online command
-					BLAST_wrapper -i "$file" -o "$output" -bd "$9" -ba "$8" -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
-					/home/galaxy/Tools/Add_taxonomy/Add_taxonomy.py /home/galaxy/Extra_Ref/nodes.dmp /home/galaxy/Extra_Ref/taxonid_names.tsv "$plain" "$output"
+					BLAST_Wrapper -i "$file" -o "$output" -bd "$9" -ba "$8" -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
+					Add_Taxonomy /home/galaxy/ExtraRef/nodes.dmp /home/galaxy/ExtraRef/taxonid_names.tsv "$plain" "$output"
 				else
 					# if more then a 100 reads, write the following output
 					echo "$file contains to many reads for online blasting, switch to local blast" > "$output"
@@ -110,18 +106,16 @@ else
 	plain="${2%.*}"_temp.tsv
 
 	if [ "$8" == "-lb" ]; then
-		echo "${9}"
-		echo "${@:10}"
 		# the command for local blasting
-		BLAST_wrapper -i "$2" -o "$plain" -task "${9}" -bd "${@:10}" -lb -tf /home/galaxy/Extra_Ref/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
-		/home/galaxy/Tools/Add_taxonomy/Add_taxonomy.py /home/galaxy/Extra_Ref/nodes.dmp /home/galaxy/Extra_Ref/taxonid_names.tsv "$plain" "$3"
+		BLAST_Wrapper -i "$2" -o "$plain" -task "${9}" -bd "${@:10}" -lb -tf /home/galaxy/ExtraRef/taxonid_names.tsv -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
+		Add_Taxonomy /home/galaxy/ExtraRef/nodes.dmp /home/galaxy/ExtraRef/taxonid_names.tsv "$plain" "$3"
 	else
 		# check if the file contains less then a 100 reads, if more skip the online blast
 		# to prevent flooding of the ncbi servers
 		if [ $(grep -c ">" "$2") -le 100 ]; then
 			# online command
-			BLAST_wrapper -i "$2" -o "$plain" -bd "$9" -ba "$8" -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
-			/home/galaxy/Tools/Add_taxonomy/Add_taxonomy.py /home/galaxy/Extra_Ref/nodes.dmp /home/galaxy/Extra_Ref/taxonid_names.tsv "$plain" "$3"
+			BLAST_Wrapper -i "$2" -o "$plain" -bd "$9" -ba "$8" -hs "$4" -mi "$5" -mc "$6" -me "$7" > /dev/null 2>&1
+			Add_Taxonomy /home/galaxy/ExtraRef/nodes.dmp /home/galaxy/ExtraRef/taxonid_names.tsv "$plain" "$3"
 		else
 			# if more then a 100 reads, write the following output
 			echo "$file contains to many reads for online blasting, switch to local blast" > "$3"

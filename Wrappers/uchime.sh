@@ -28,7 +28,7 @@ then
 			usearch -uchime_denovo "${file%.fasta}_amplicon" -nonchimeras "${file%.fasta}_nonchime" > /dev/null 2>&1
 
 			# resize the chimera output
-			/home/galaxy/Tools/Resize_nonChimera/Resize_nonChimera.py "${file%.fasta}_nonchime" > "${file%.fasta}_nonchime.fasta"
+			Resize_NonChimera "${file%.fasta}_nonchime" > "${file%.fasta}_nonchime.fasta"
 
 			# ZIP the results and remove the redundant files
 			zip -q -9 "$temp_zip" "${file%.fasta}_nonchime.fasta"
@@ -49,7 +49,7 @@ else
 	usearch -uchime_denovo "${3}_amplicon" -nonchimeras "${3}_nonchime" > /dev/null 2>&1
 
 	# resize the chimera output
-	/home/galaxy/Tools/Resize_nonChimera/Resize_nonChimera.py "${3}_nonchime" > "$3"
+	Resize_NonChimera "${3}_nonchime" > "$3"
 
 	# remove the temp files
 	rm "${3}_"*

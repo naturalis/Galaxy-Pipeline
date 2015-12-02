@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <tool id="blast" name="BLAST" version="1.0">
-	<description>Wrapper for online or local BLASTing.</description>
+        <description>Wrapper for online or local BLASTing.</description>
 
-	<!-- collect the parameters and provide these to the wrapper script -->
-	<command interpreter="bash">
+        <!-- collect the parameters and provide these to the wrapper script -->
+        <command interpreter="bash">
 
 		blast.sh
 		$input_type.input_format
@@ -13,7 +13,7 @@
 		#else
 			$input_type.input_zip
 			$output_zip
-		#end if		
+		#end if                
 
 		$hitlist
 		$min_iden
@@ -22,11 +22,11 @@
 
 		#if $location.blast_loc == "local"
 			-lb
-			$location.task
+			$location.ltask
 			$location.blast_db
 		#elif $location.blast_loc == "user"
 			-lb
-			megablast
+			$location.utask
 			user
 			$location.blastdb_zip
 		#else
@@ -34,7 +34,7 @@
 			$location.online_blast_database.blast_db
 		#end if
 		
-	</command>
+        </command>
 
 	<!-- Two macros containing the various NCBI databases that can be blasted against -->
 	<macros>
@@ -58,7 +58,7 @@
 		</macro>
 	</macros>
 
-	<inputs>
+        <inputs>
 		<!-- get the type of input file, and the file itself (zip vs fasta) -->
 		<conditional name="input_type">
 			<param name="input_format" type="select" label="Single file or ZIP archive?">
@@ -112,16 +112,15 @@
 			<!-- local blast settings -->
 			<when value="local">
 				<param name="blast_db" type="select" multiple="true" label="Local BLAST database">
-					<option value="nt_clean">GenBank Filtered Nucleotide Database (No environmental and uncultured samples)</option>
 					<option value="nt" selected="true">GenBank Nucleotide Database</option>
 					<option value="BoLD_combined_filtered.fasta">Filtered BoLD Database (Only sequenced identified to species level)</option>
-		       			<option value="BoLD_combined_unfiltered.fasta">Unfiltered BoLD Database (All sequences)</option>
-					<option value="sh*fasta">UNITE Fungal ITS Database (Release August 2015)</option>
-					<option value="SILVA*SSU*fasta">SILVA SSU (16S and 18S) Database (Release 123)</option>
-					<option value="SILVA*LSU*fasta">SILVA LSU (23S and 28S) Database (Release 123)</option>
+                       	                <option value="BoLD_combined_unfiltered.fasta">Unfiltered BoLD Database (All sequences)</option>
+					<option value="sh*fasta">UNITE Fungal ITS Database</option>
+					<option value="SILVA*SSU*fasta">SILVA SSU (16S and 18S) Database</option>
+					<option value="SILVA*LSU*fasta">SILVA LSU (23S and 28S) Database</option>
 				</param>
 
-				<param name="task" type="select" multiple="false" label="BLAST task">
+				<param name="ltask" type="select" multiple="false" label="BLAST task">
 					<option value="blastn">blastn</option>
 					<option value="megablast" selected="true">megablast</option>
 					<option value="dc-megablast">discontinuous megablast</option>
@@ -131,6 +130,12 @@
 			<!-- User blast database select -->
 			<when value="user">
 				<param name="blastdb_zip" type="data" format="zip" multiple="true" label="ZIP file containing the BLAST database" help="BLAST database created by the makeblastdb function in Galaxy." />
+
+				<param name="utask" type="select" multiple="false" label="BLAST task">
+					<option value="blastn">blastn</option>
+					<option value="megablast" selected="true">megablast</option>
+					<option value="dc-megablast">discontinuous megablast</option>
+				</param>
 			</when>
 
 		</conditional>
@@ -141,9 +146,9 @@
 		<param name="min_cov" type="integer" label="Minimum BLAST hit coverage" value="100" min="1"/>
 		<param name="max_e" type="float" label="Maximum e-value" value="0.05" max="1.00"/>
 
-	</inputs>
+        </inputs>
 
-	<outputs>
+        <outputs>
 		<!-- based on the input the correct output file type is set, ie input zip = output zip
 			input fasta = output tsv -->
 		<data format="tabular" name="output_tsv" label="$input_type.input_seq.display_name BLAST">
@@ -152,16 +157,14 @@
 		<data format="zip" name="output_zip" label="$input_type.input_zip.display_name BLAST">
 			<filter>input_type['input_format'] == "zip"</filter>
 		</data>
-	</outputs>
+        </outputs>
 
-	<tests>
-	</tests>
+        <tests>
+        </tests>
 
-	<help>
-		BLAST FASTA sequences against either online against the NCBI genbank database or against local copies (nt supported). Online BLASTing is limited to a 100 sequences max per run.
-
-		Reference: Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. BLAST+: architecture and applications. <i>BMC Bioinformatics</i> 2009, <b>10</b>:421.
-	</help>
+        <help>
+                BLAST FASTA sequences against either online against the NCBI genbank database or against local copies (nt supported). Online BLASTing is limited to a 100 sequences max per run.
+        </help>
 
 </tool>
 

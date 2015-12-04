@@ -51,7 +51,7 @@
 
 		#if int($trim_qual_window) > 1
 			-trim_qual_window $trim_qual_window
-			-trim_qual_step $trim_qual_window
+			-trim_qual_step "1"
 			-trim_qual_type $trim_qual_type
 		#end if
 

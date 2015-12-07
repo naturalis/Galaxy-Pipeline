@@ -191,7 +191,7 @@
 	<help>
 		The PRINSEQ sequence filter / converter tool. Use PRINSEQ to either cleanup raw sequence data (by filtering or trimming) or converting data from one file format into the other (FASTQ > FASTA). The order in which the filter and trim settins are applied to the reads matches the order in which they are listed on the options form.
 
-		Reference: Schmieder R and Edwards R. Quality control and preprocessing of metagenomic datasets. <i>Bioinformatics</i> 2011, <b>27</b>:863-864.
+		Reference: Schmieder R and Edwards R. Quality control and preprocessing of metagenomic datasets. *Bioinformatics* 2011, **27**:863-864.
 	</help>
 
 </tool>

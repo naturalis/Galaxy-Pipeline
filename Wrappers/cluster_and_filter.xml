@@ -61,7 +61,7 @@
 	<help>
 		Cluster the input FASTA file with CD-HIT-EST and remove the clusters smaller than the minimum size. The sequence similarity can be changed to either create more specific cluster (increase the threshold) or broader clusters (lower the threshold).
 
-		Reference: Limin Fu, Beifang Niu, Zhengwei Zhu, Sitao Wu, Weizhong Li. CD-HIT: accelerated for clustering the next generation sequencing data. <i>Bioinformatics</i> 2012, <b>28 (23)</b>: 3150-3152.
+		Reference: Limin Fu, Beifang Niu, Zhengwei Zhu, Sitao Wu, Weizhong Li. CD-HIT: accelerated for clustering the next generation sequencing data. *Bioinformatics* 2012, **28 (23)**: 3150-3152.
 	</help>
 
 </tool>

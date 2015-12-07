@@ -76,7 +76,7 @@
 	</tests>
 
 	<help>
-		Remove sequences that occur n-times or less (for example singletons), smooths the quality of sequences that appear above the threshold.
+		Remove sequences that occur n-times or less (for example singletons), smooths the quality of sequences that appear above the threshold. Caution: if there is a lot of variation in the sequences (length or single nucleotide differences) using the Abudance filter tool with a min size of 2 or higher might remove too many sequences.
 	</help>
 
 </tool>

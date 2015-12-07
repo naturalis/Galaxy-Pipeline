@@ -76,6 +76,7 @@ then
 	done
 	# move the temp zip file to the galaxy output zip file
 	mv "$temp_zip" "$3"
+
 # if no zip file is provided, run one of the following commands, the HTS-barcode-checker output is immediatly written to the
 # galaxy output filepath provided
 else

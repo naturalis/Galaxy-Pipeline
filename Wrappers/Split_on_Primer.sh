@@ -6,8 +6,10 @@ if [ "$4" == "text" ]
 then
 	# Create a temporary file for the user provided primers
 	temp_primer=$(mktemp)
+
 	# Split the text field data and write them to the temp file
 	printf $(echo "$5" | sed 's/__cr____cn__/\\n/g') > $temp_primer
+
 	# set the arguments so that the temp file replaces the text argument
 	set -- "${@:1:4}" "$temp_primer" "${@:6}"
 fi
@@ -18,6 +20,7 @@ then
 	# Create a temporary zip file
 	temp_zip=$(mktemp -u XXXXXX.zip)
 	IFS=$'\t\n'
+
 	# for each file in the zip
 	for file in $(zipinfo -1 "$2")
 	do
@@ -25,17 +28,21 @@ then
 		if [[ "@>" =~ $(unzip -p "$2" "$file" | head -n 1 | grep -o "^.") ]]
 		then
 			IFS=$' \t\n'
+
 			# Create a temporary seq fiel
 			ziped=$(mktemp)
+
 			# Write the reads to the temp seq file
 			unzip -p "$2" "$file" > $ziped
+
 			# replace spaces in the filenames, space-less names are required
 			# in order to retrieve the files after splitting.
 			file="${file// /-}"
+
 			# Skip the folder structure in the zip if present.
-			#file="{file##*/}"
 			# Run the Split on primer tool, capture the file list output
 			Split_files=$(Split_on_Primer -f $ziped -p "$5" -m "$6" -s "$7" ${8})
+
 			# for each filename in the filelist produced by the Split_on_Primer tool
 			for split in $Split_files
 			do
@@ -47,13 +54,10 @@ then
 					rm $split
 				else
 					# get the output file and zip it to the temp zip file
-					#echo $split $ziped $file
-					#echo $(echo ${split/${ziped%.*}/${file%.*}})
 					new=$(echo ${split/${ziped%.*}/${file%.*}} | sed -e "s/\..*/.${file#*.}/")
-					#echo $new
 					mv $split $new
-					#echo "Adding file to ZIP"
 					zip -q -9 "$temp_zip" $new
+
 					# remove the left over file
 					rm $new
 				fi
@@ -70,6 +74,7 @@ then
 else
 	# Run the Split tools and capture the split filepaths
 	Split_files=$(Split_on_Primer -f "$2" -p "$5" -m "$6" -s "$7" ${8})
+
 	# for each split file produced
 	for file in $Split_files
 	do

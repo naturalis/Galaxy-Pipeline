@@ -8,10 +8,9 @@ for sp in $(wget -O - -q http://www.barcodinglife.org/index.php/TaxBrowser_Home 
 do
 	# Use wget to download the file from the BoLD API and append it to the temporary fasta file
 	echo $sp
-	wget -O - http://www.boldsystems.org/index.php/API_Public/sequence?taxon=$sp > temp_fasta.fasta #> temp_BoLD.fasta
+	wget -O - http://www.boldsystems.org/index.php/API_Public/sequence?taxon=$sp > temp_fasta.fasta
 	# variable sleep time (sqrt of # num of sequences downloaded)
 	mr=$(seq=$(grep -c ">" temp_fasta.fasta); echo "sqrt(sqrt($seq))"| bc)
-	#echo $mr
 	echo "sleeping for ${mr} min"
 	sleep ${mr}m
 	cat temp_fasta.fasta >> temp_BoLD.fasta

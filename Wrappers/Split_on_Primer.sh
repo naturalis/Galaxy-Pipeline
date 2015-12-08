@@ -8,7 +8,7 @@ then
 	temp_primer=$(mktemp)
 
 	# Split the text field data and write them to the temp file
-	printf $(echo "$5" | sed 's/__cr____cn__/\\n/g') > $temp_primer
+	printf $(echo "$5" | sed 's/__cn__/\\n/g') > $temp_primer
 
 	# set the arguments so that the temp file replaces the text argument
 	set -- "${@:1:4}" "$temp_primer" "${@:6}"

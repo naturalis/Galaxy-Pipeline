@@ -68,7 +68,7 @@ then
 		if [ "$5" != "" ]
 		then
 			# if the user provided a set of files or regexes for matching, use these
-			for match in $(echo "$5" | sed 's/__cr____cn__/\t/g' | sed 's/\*/.\*/g')
+			for match in $(echo "$5" | sed 's/__cn__/\t/g' | sed 's/\*/.\*/g')
 			do
 				# compare each user match name to all files in the zip
 				if [[ $file =~ $match ]]
@@ -110,7 +110,7 @@ then
 		for file in $(zipinfo -1 "$2")
 		do
 			# for each regex provided
-			for regex in $(echo "$4" | sed 's/__cr____cn__/\t/g')
+			for regex in $(echo "$4" | sed 's/__cn__/\t/g')
 			do
 				IFS=$' \t\n'
 				match=${regex%/*}
@@ -133,7 +133,7 @@ elif [ "$1" == "delete" ]
 then
 	# delete items in the zip that match with the filenames /
 	# regexes provided by the user
-	items=$(echo "$3" | sed 's/__cr____cn__/ /g')
+	items=$(echo "$3" | sed 's/__cn__/ /g')
 	zip "$2" -d $items
 
 # Create zip containing a subset of files from an other zip
@@ -141,7 +141,7 @@ elif [ "$1" == "subset" ]
 then
 	# files that match use user provided filenames / regex'es are copied
 	# to a new zip file
-	zip -9 -U "$2" $(echo "$4" | sed 's/__cr____cn__/ /g') -O "$3"
+	zip -9 -U "$2" $(echo "$4" | sed 's/__cn__/ /g') -O "$3"
 
 # If nothing matches
 else

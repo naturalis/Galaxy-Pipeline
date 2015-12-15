@@ -34,7 +34,7 @@ if(ncol(OTU) < 2) {
 		physeqF5kR = physeqF
 	}
 	
-	if(ncol(otudata) <= 2) {
+	if(count5k <= 2) {
 		if(commandArgs(TRUE)[5] == "order") {
 			plot <- plot_heatmap(physeqF5kR, "RDA", "bray", "Sample", "Taxonomy", taxa.order=commandArgs(TRUE)[3])
 		} else {

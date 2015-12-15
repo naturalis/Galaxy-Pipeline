@@ -23,7 +23,7 @@
 0 0 * * 0 /home/galaxy/Tools/GetUpdate/GetTax.sh >> /home/galaxy/Log/GetTax.log
 0 1 * * 0 /home/galaxy/Tools/GetUpdate/GetNt.sh >> /home/galaxy/Log/GetNT.log
 0 6 * * 6 [ $(date +\%d) -le 07 ] && /home/galaxy/Tools/GetUpdate/Scrape_BOLD.sh >> /home/galaxy/Log/Scrape_BOLD.log
-0 1 * Jan,Apr,Jul,Oct 6 [ $(date +\%d) -le 07 ] && /home/galaxy/Tools/HTS-barcode-checker/src/Retrieve_CITES.py -db /home/galaxy/ExtraRef/CITES_db.csv >> /home/galaxy/Log/Retrieve_CITES.log
+0 1 * Jan,Apr,Jul,Oct 6 [ $(date +\%d) -le 07 ] && /home/galaxy/Tools/HTS-barcode-checker/src/Retrieve_CITES.py -db /home/galaxy/ExtraRef/CITES_db.csv -lf /home/galaxy/Log/Retrieve_CITES.log
 55 21 * * 0 find /home/galaxy/galaxy/database/tmp/* -mtime +5 -delete
 0 22 * * 0 cd /home/galaxy/galaxy/ && /home/galaxy/galaxy/.venv/bin/python2.7 /home/galaxy/galaxy/scripts/cleanup_datasets/admin_cleanup_datasets.py /home/galaxy/galaxy/config/galaxy.ini >> /home/galaxy/Log/admin_cleanup_datasets.log
 5 22 * * 0 cd /home/galaxy/galaxy/ && /home/galaxy/galaxy/.venv/bin/python2.7 /home/galaxy/galaxy/scripts/cleanup_datasets/cleanup_datasets.py -1 -r /home/galaxy/galaxy/config/galaxy.ini >> /home/galaxy/Log/delete_userless_histories.log

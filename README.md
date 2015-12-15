@@ -41,6 +41,7 @@ The following Git repositories contain script for filtering and manipulating dat
  - https://github.com/Y-Lammers/Compare_BLAST, create a symbolic link for `Compare_BLAST.py`.
  - https://github.com/Y-Lammers/Resize_nonChimera, create a symbolic link for `Resize_nonChimera.py`.
  - https://github.com/naturalis/Split_on_Primer, create a symbolic link for `Split_on_Primer.py`.
+ - https://github.com/Y-Lammers/Expand_BLAST.git, create a symbolic link for `Expand_BLAST.py`.
 
 # uchime / usearch
 Get a copy of usearch from http://www.drive5.com/usearch/download.html (tested for version 7.\*, though newer versions should work). Create a symbolic link for usearch to `/usr/local/bin`.

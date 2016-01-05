@@ -27,12 +27,14 @@
 		#if $input_type.input_format == "hist"
 			$output_tsv
 			$output_blast_html
+			$output_m_blast_html
 			#for $blast in $input_type.add_blast
 				${blast.input_blast},"${blast.input_blast.display_name}"
 			#end for
 		#else
 			$output_zip
 			$output_zip_html
+			$output_m_zip_html
 			$input_type.input_zip
 		#end if
 
@@ -79,6 +81,12 @@
 			<filter>input_type['input_format'] == "zip"</filter>
 		</data>
 		<data format="html" name="output_blast_html" label="Chart" > 
+			<filter>input_type['input_format'] != "zip"</filter>
+		</data>
+		<data format="html" name="output_m_zip_html" label="$input_type.input_zip.display_name Merged Chart">
+			<filter>input_type['input_format'] == "zip"</filter>
+		</data>
+		<data format="html" name="output_m_blast_html" label="Merged Chart" > 
 			<filter>input_type['input_format'] != "zip"</filter>
 		</data>
 		<data format="png" name="output_zip_png" label="$input_type.input_zip.display_name Heatmap">

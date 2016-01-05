@@ -94,7 +94,7 @@
 	</tests>
 
 	<help>
-		Assemble the reads with either Trans-Abyss or SOAPdenovo-Trans to contigs.
+		*De novo* assemble the reads with either Trans-Abyss or SOAPdenovo-Trans into contigs. This tool should be used to *de novo* assemble reads from fragmented material. (i.e. barcoding regions that were too long to sequence in one go and thus were fragmented prior to sequencing.) “Normal” barcoding sequences (non-fragmented) should be clustered with the cluster tool.
 
 		Trans-Abyss reference: Robertson G, Schein J, Chiu R, Corbett R, Field M,  Jackman SD, *et al*. De novo assembly and analysis of RNA-seq data. *Nature methods* 2010, **7(11)**:909–12.
 

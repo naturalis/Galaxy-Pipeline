@@ -52,7 +52,7 @@
 				<option value="text">Text form</option>
 			</param>
 			<when value="file">
-				<param name="primers" format="csv" type="data" label="Primer file in CSV format (Primer,Sequence)" />
+				<param name="primers" format="csv" type="data" label="Primer file in CSV format (&quot;Primer,Sequence&quot;)" />
 			</when>
 			<when value="text">
 				<param name="primers" type="text" area="True" size="4x40" label="Primers and sequences" help="Provide the primer names and sequences in the following format: &quot;[Primer],[Sequence]&quot; (without the brackets or quotes). One primer - sequence combination per line." />
@@ -75,6 +75,6 @@
 	<tests>
 	</tests>
 	<help>
-		Demultiplex a sequence file based on a set of user provided primer sequences or sequence labels. The tool will create an output file for each primer or label the user provided, even if none of the input sequences match. If there are multiple primers with the same name (regardless of the sequence) the results will be placed in the same output file. The demultiplex tool can handle ambiguous nucleotides, if a primer contains these ambiguous nucleotides it will match all the potential bases with the sequences, without counting towards the mismatch limit.
+		Demultiplex a sequence file based on a set of user provided primer sequences or sequence labels. The tool will create an output file for each primer or label the user provided, even if none of the input sequences match. Additionally, an "unmatched" file will be created that contains all the sequences that do not match with any of the primers. If there are multiple primers with the same name (regardless of the sequence) the results will be placed in the same output file. The demultiplex tool can handle ambiguous nucleotides, if a primer contains these ambiguous nucleotides it will match all the potential bases with the sequences, without counting towards the mismatch limit.
 	</help>
 </tool>

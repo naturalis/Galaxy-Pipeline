@@ -142,11 +142,11 @@
                 <param name="trim_right" type="integer" label="Trim '3 end" help="Trim the n bases on the '3 end." value="0" min="0"/>
                 <param name="trim_qual_left" type="integer" label="Trim the '5 end based on quality" help="Trim the '5 bases if the are below the quality threshold." value="0" min="0"/>
                 <param name="trim_qual_right" type="integer" label="Trim the '3 end based on quality" help="Trim the '3 bases if the are below the quality threshold." value="0" min="0"/>
-                <param name="trim_to_len" type="integer" label="Trim to length" help="Trim the '5 end till the sequence meets the desired length." value="0" min="0"/>
-		<param name="trim_qual_window" type="integer" label="Window size for quality trimming" help="Use a window for quality trimming." value="1" min="1" max="100"/>
-		<param name="trim_qual_type" type="select" label="Methods for window trimming (only used when window size is larger than 1)">
+		<param name="trim_qual_window" type="integer" label="Window size for quality trimming" help="Use a window for quality trimming. The entire window will be trimmed if it is lower than the '5 or '3 end quality threshold, this is usefull for trimming sequences that have a lot of variation in the quality scores. The default window size (1) means that the sequences are trimmed one base at a time (no window)." value="1" min="1" max="100"/>
+		<param name="trim_qual_type" type="select" label="Methods for window trimming (only used when window size is larger than 1).">
 			<option value="min" selected="true">Minimum value in window</option>
 			<option value="mean">Mean quality of window</option>
+                <param name="trim_to_len" type="integer" label="Trim to length" help="Trim from the '3 end untill the sequence meets the desired length." value="0" min="0"/>
 		</param>
 
 		<!-- Arguments for sequence filtering -->

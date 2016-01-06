@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <tool id="De_novo_assembly" name="De novo assembly" version="1.0">
-	<description>De novo assembly of the barcoding regions.</description>
+	<description>*De novo* assembly of the barcoding regions.</description>
 
 	<!-- collect the parameters and provide these to the wrapper script -->
 	<command interpreter="bash">
@@ -59,20 +59,20 @@
 			</param>
 			<when value="Abyss">
 				<!-- Abyss settings -->
-				<param name="pid_a" type="float" label="sequence identity" help="Minimum sequence similarity for sequence merging (higher is stricter)" value="0.95" min="0" max="1" />
-				<param name="coverage" type="integer" label="kmer coverage" help="Minimum kmer coverage per contig" value="2" min="0" max="1000" />
-				<param name="pid_m" type="float" label="contig identity" help="Minimum contig similarity for contig merging (higher is stricter)" value="0.95" min="0" max="1" />
-				<param name="ab_l" type="integer" label="contig length" help="Minimum scaffold length" value="100" min="0" />
-				<param name="min_k" type="integer" label="min k" help="Minimum k-mer value for assembly" value="15" min="15" max="125" />
-				<param name="max_k" type="integer" label="max k" help="Maximum k-mer value for assembly (should be smaller than the minimum read length)" value="63" min="17" max="127" />
-				<param name="k_step" type="integer" label="k step" help="Number of kmer steps between min-k and max-k (max value = (max-k - min-k)/2 ), if step = 1, only use the max-k value" value="4" min="1" max="25" />
+				<param name="pid_a" type="float" label="sequence identity" help="Minimum sequence similarity for sequence merging (higher is stricter)." value="0.95" min="0" max="1" />
+				<param name="coverage" type="integer" label="kmer coverage" help="Minimum kmer coverage per contig." value="2" min="0" max="1000" />
+				<param name="pid_m" type="float" label="contig identity" help="Minimum contig similarity for contig merging (higher is stricter)." value="0.95" min="0" max="1" />
+				<param name="ab_l" type="integer" label="contig length" help="Minimum scaffold length." value="100" min="0" />
+				<param name="min_k" type="integer" label="min k" help="Minimum k-mer value for assembly." value="15" min="15" max="125" />
+				<param name="max_k" type="integer" label="max k" help="Maximum k-mer value for assembly (should be smaller than the minimum read length)." value="63" min="17" max="127" />
+				<param name="k_step" type="integer" label="k step" help="Number of kmer steps between min-k and max-k (max value = (max-k - min-k)/2 ), if step = 1, only use the max-k value." value="4" min="1" max="25" />
 			</when>
 			<when value="SOAP">
 				<!-- SOAP settings -->
-				<param name="kmer" type="integer" label="kmer value" help="kmer value used for assembly (should be lower then minimum read length)" value="21" min="15" max="127" />
-				<param name="sd_l" type="integer" label="contig length" help="Minimum contig length" value="100" min="0" />
-				<param name="d_off" type="integer" label="kmer cutoff" help="kmer cutoff value (higher values reduce miss assembled contigs at the cost of ignoring rare contigs)" value="0" min="0" max="100" />
-				<param name="mrlen" type="integer" label="max read length" help="Maximum read length (find with the analyze / trim tools). Reads longer than the max length will be trimmed down to the maximum length" value="500" min="0" />
+				<param name="kmer" type="integer" label="kmer value" help="kmer value used for assembly (should be lower then minimum read length)." value="21" min="15" max="127" />
+				<param name="sd_l" type="integer" label="contig length" help="Minimum contig length." value="100" min="0" />
+				<param name="d_off" type="integer" label="kmer cutoff" help="kmer cutoff value (higher values reduce miss assembled contigs at the cost of ignoring rare contigs)." value="0" min="0" max="100" />
+				<param name="mrlen" type="integer" label="max read length" help="Maximum read length (find with the analyze / trim tools). Reads longer than the max length will be trimmed down to the maximum length." value="500" min="0" />
 			</when>
 		</conditional>
 

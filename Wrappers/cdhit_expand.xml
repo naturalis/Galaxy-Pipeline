@@ -28,11 +28,11 @@
 			</param>
 			<when value="hist">
 				<param name="input_blast" type="data" format="tabular" label="BLAST results" help="BLAST tsv file." />
-				<param name="cluster_stat_tsv" type="data" format="txt" label="Cluster stats file" help="The cluster stats." />
+				<param name="cluster_stat_tsv" type="data" format="txt" label="Cluster stats file" help="The CD-HIT cluster stats file containing the cluster sizes." />
 			</when>
 			<when value="zip">
-				<param name="input_zip" type="data" format="zip" label="ZIP file with the BLAST results" help="ZIP file containing the BLAST results in tsv format" />
-				<param name="cluster_stat_zip" type="data" format="zip" label="Cluster stats zip" help="The zip containing the cluster stats" />
+				<param name="input_zip" type="data" format="zip" label="ZIP file with the BLAST results" help="ZIP file containing the BLAST results in tsv format." />
+				<param name="cluster_stat_zip" type="data" format="zip" label="Cluster stats ZIP" help="The ZIP file containing the cluster stats data." />
 			</when>
 		</conditional>
         </inputs>
@@ -51,7 +51,7 @@
         </tests>
 
         <help>
-                Expand the BLAST results with an additional collumn containing the cluster size (in number of sequences), assuming that the BLAST input is based on clustered data.
+                Expand the BLAST results with an additional column containing the cluster size (in number of sequences), assuming that the BLAST input is based on clustered data.
         </help>
 
 </tool>

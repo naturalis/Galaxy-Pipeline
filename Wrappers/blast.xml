@@ -163,7 +163,7 @@
         </tests>
 
         <help>
-                BLAST FASTA sequences against either online against the NCBI genbank database or against local copies (nt supported). Online BLASTing is limited to a 100 sequences max per run.
+                BLAST FASTA sequences either online against the NCBI GenBank database, several local databases (GenBank, BoLD, SILVA and UNITE) or a user created database (created with the &quot;Create BLAST database&quot; tool). Online BLASTing is limited to a 100 sequences max per run.
 
 		Reference: Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. BLAST+: architecture and applications. *BMC Bioinformatics* 2009, **10**:421.
         </help>

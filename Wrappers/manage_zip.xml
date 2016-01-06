@@ -47,11 +47,11 @@
 	<macros>
 		<!-- macros for input zip or unzipped files -->
 		<macro name="input_zip">
-			<param name="input_zip" type="data" format="zip" label="Input ZIP file" help="ZIP fileData file" />
+			<param name="input_zip" type="data" format="zip" label="Input ZIP file" help="The ZIP file that will be processed." />
 		</macro>
 
 		<macro name="tozip">
-			<param name="tozip" type="data" multiple="true" label="Files to zip"/>
+			<param name="tozip" type="data" multiple="true" label="Files from the history that will be ZIPed."/>
 		</macro>
 
 	</macros>
@@ -84,7 +84,7 @@
 
 			<when value="unpack">
 				<expand macro="input_zip" />
-				<param name="extract" type="text" area="True" size="4x40" label="Files to extract" help="File to extract from zip, either provide full names or use wildcards for filematching (*). If no names are provided all contents will be extracted." />
+				<param name="extract" type="text" area="True" size="4x40" label="Files to extract" help="File to extract from ZIP, either provide full names or use wildcards for filematching (*). If no names are provided all contents will be extracted." />
 			</when>
 
 			<when value="rename">
@@ -96,7 +96,7 @@
 					</param>
 					
 					<when value="file">
-						<param name="name_table" type="data" format="csv" label="Name table" help="Name table (in the following csv format &quot;[old name],[new name]&quot;)" />
+						<param name="name_table" type="data" format="csv" label="Name table" help="Name table (in the following csv format &quot;[old name],[new name]&quot;)." />
 					</when>
 
 					<when value="regex">
@@ -107,12 +107,12 @@
 
 			<when value="delete">
 				<expand macro="input_zip" />
-				<param name="remove" type="text" area="True" size="4x40" label="Files to delete" help="Files to delete from zip, either provide full names or use wildcards for filematching (*)" />
+				<param name="remove" type="text" area="True" size="4x40" label="Files to delete" help="Files to delete from ZIP, either provide full names or use wildcards for filematching (*)." />
 			</when>
 
 			<when value="subset">
 				<expand macro="input_zip" />
-                                <param name="sub" type="text" area="True" size="4x40" label="Create a subset with the following files" help="Files to extract from zip, either provide full names or use wildcards for filematching (*)" />
+                                <param name="sub" type="text" area="True" size="4x40" label="Create a subset with the following files" help="Files to extract from ZIP, either provide full names or use wildcards for filematching (*)." />
 			</when>
 
 		</conditional>
@@ -133,7 +133,7 @@
 	</tests>
 
 	<help>
-		Manage files in the current history. Extract or create .ZIP files, rename files in bulk or delete non-relevant files.
+		Manage (ZIP) files in the current history. Extract or create .ZIP files, bulk rename ZIPed files or delete files from an archive.
 	</help>
 
 </tool>

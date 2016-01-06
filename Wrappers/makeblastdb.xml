@@ -25,7 +25,7 @@
 	</tests>
 
 	<help>
-		Convert the selected FASTA file to a BLAST database that can be used as input for the BLAST wrapper. The BLAST database is stored in the user history as a zip file.
+		Convert the selected FASTA file to a BLAST database that can be used as input for the BLAST wrapper. The BLAST database is stored in the user history as a ZIP file.
 
 		Reference: Camacho C, Coulouris G, Avagyan V, Ma N, Papadopoulos J, Bealer K, Madden TL. BLAST+: architecture and applications. *BMC Bioinformatics* 2009, **10**:421.
 	</help>

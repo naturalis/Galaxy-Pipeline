@@ -50,7 +50,7 @@
 	</tests>
 
 	<help>
-		Use the uchime denovo tool from the usearch package to remove chimeric sequences from an amplicon set.
+		Use the uchime *de novo* tool from the usearch package to remove chimeric sequences from an amplicon set.
 
 		Reference: Edgar, RC. Search and clustering orders of magnitude faster than BLAST, *Bioinformatics* 2010, **26(19)**, 2460-2461.
 	</help>

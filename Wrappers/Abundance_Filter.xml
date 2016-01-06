@@ -53,7 +53,7 @@
 
 		<!-- filter arguments -->
 		<param name="min_size" type="integer" label="Minimum sequence number" help="The minimum number of sequences per group." value="2" min="0"/>
-		<param name="copy_num" type="boolean" checked="false" label="Preserve the copy number" help="Preserve the copy number, usefull for abundance estimates after identification." />
+		<param name="copy_num" type="boolean" checked="false" label="Preserve the copy number" help="If &quot;YES&quot; is selected: the number of sequences in a group will be preserved. This feature is usefull when abundances need to be estimated after identification." />
 	</inputs>
 
 	<outputs>
@@ -76,7 +76,7 @@
 	</tests>
 
 	<help>
-		Remove sequences that occur n-times or less (for example singletons), smooths the quality of sequences that appear above the threshold. Caution: if there is a lot of variation in the sequences (length or single nucleotide differences) using the Abudance filter tool with a min size of 2 or higher might remove too many sequences.
+		Remove sequences that occur n-times or less (for example singletons), smooths the quality of sequences that appear above the threshold. (Smoothing occurs by calculating the average quality score for each base in identical sequences.) Caution: if there is a lot of variation in the sequences (length or single nucleotide differences) using the Abudance filter tool with a min size of 2 or higher might remove too many sequences.
 	</help>
 
 </tool>

@@ -15,7 +15,7 @@
 
         <inputs>
                 <param name="clusters" type="data" format="fasta" label="Cluster sequence file" help="FASTA file containing the CD-HIT-EST clusters." />
-                <param name="cluster_stat" type="data" format="txt" label="Cluster stats" help="The CD-HIT-EST clusters stats" />
+                <param name="cluster_stat" type="data" format="txt" label="Cluster stats" help="The CD-HIT-EST clusters stats file." />
 		<param name="min_size" type="integer" label="Minimum cluster size" help="The minimum number of sequences per cluster." value="2" min="0"/>
         </inputs>
 

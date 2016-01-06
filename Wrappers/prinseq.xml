@@ -147,7 +147,7 @@
 			<option value="min" selected="true">Minimum value in window</option>
 			<option value="mean">Mean quality of window</option>
 		</param>
-                <param name="trim_to_len" type="integer" label="Trim to length" help="Trim from the '3 end untill the sequence meets the desired length." value="0" min="0"/>
+		<param name="trim_to_len" type="integer" label="Trim to length" help="Trim from the '3 end untill the sequence meets the desired length." value="0" min="0"/>
 
 		<!-- Arguments for sequence filtering -->
 		<param name="min_len" type="integer" label="Minimum read length" help="The minimum sequence length." value="0" min="0"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <tool id="De_novo_assembly" name="De novo assembly" version="1.0">
-	<description>*De novo* assembly of the barcoding regions.</description>
+	<description>De novo assembly of the barcoding regions.</description>
 
 	<!-- collect the parameters and provide these to the wrapper script -->
 	<command interpreter="bash">

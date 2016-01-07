@@ -35,6 +35,7 @@ def extract_sequences():
 		header = removeNonAscii(headers.next().strip())
 		sequence = ''.join(line.strip() for line in lines.next())
 		sequence = re.sub('[^ATCGU]', '', sequence)
+		sequence = re.sub('U', 'T', sequence)
 				
 		# yield the header + sequence
 		yield [header, sequence]

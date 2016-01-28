@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<tool id="catenatetxt" name="Catenate Data" version="1.0">
+	<description>Catenate plain text data files</description>
+
+	<!-- collect the parameters and provide these to the wrapper script -->
+	<command interpreter="bash">
+
+		cattxt.sh
+
+		$output_file
+
+		#if $input_type.input_format == "FASTA"
+			#for $file in $input_type.add_fasta
+				$file.input_fasta
+			#end for
+
+		#elif $input_type.input_format == "FASTQ"
+			#for $file in $input_type.add_fastq
+				$file.input_fastq
+			#end for
+
+		#elif $input_type.input_format == "TXT"
+			#for $file in $input_type.add_txt
+				$file.input_txt
+			#end for
+
+		#elif $input_type.input_format == "CSV"
+			#for $file in $input_type.add_csv
+				$file.input_csv
+			#end for
+
+		#elif $input_type.input_format == "TSV"
+			#for $file in $input_type.add_tsv
+				$file.input_tsv
+			#end for
+		#end if
+
+	</command>
+
+	<inputs>
+		<!-- get the input files and input filetypes -->
+		<conditional name="input_type">
+			<param name="input_format" type="select" label="Select the input file type">
+				<option value="FASTA">FASTA</option>
+				<option value="FASTQ">FASTQ</option>
+				<option value="TXT">TXT</option>
+				<option value="CSV">CSV</option>
+				<option value="TSV">TSV</option>
+			</param>
+
+			<when value="FASTA">
+				<repeat name="add_fasta" title="FASTA files">
+					<param name="input_fasta" type="data" format="fasta" label="FASTA file" help="FASTA file." />
+				</repeat>
+			</when>
+
+			<when value="FASTQ">
+				<repeat name="add_fastq" title="FASTQ files">
+					<param name="input_fastq" type="data" format="fastq" label="FASTQ file" help="FASTQ file." />
+				</repeat>
+			</when>
+
+			<when value="TXT">
+				<repeat name="add_txt" title="TXT files">
+					<param name="input_txt" type="data" format="txt" label="TXT file" help="TXT file." />
+				</repeat>
+			</when>
+
+			<when value="CSV">
+				<repeat name="add_csv" title="CSV files">
+					<param name="input_csv" type="data" format="csv" label="CSV file" help="CSV file." />
+				</repeat>
+			</when>
+
+			<when value="TSV">
+				<repeat name="add_tsv" title="TSV files">
+					<param name="input_tsv" type="data" format="tabular" label="TSV file" help="TSV file." />
+				</repeat>
+			</when>
+
+		</conditional>
+
+	</inputs>
+
+	<outputs>
+		<!-- set the output name based on the input file type and name -->
+		<data format="fasta" name="output_file" label="Catenated">
+			<change_format>
+				<when input="input_type.input_format" value="FASTQ" format="fastq"/>
+				<when input="input_type.input_format" value="TXT" format="txt"/>
+				<when input="input_type.input_format" value="CSV" format="csv"/>
+				<when input="input_type.input_format" value="TSV" format="tabular"/>
+			</change_format>
+		</data>
+
+	</outputs>
+
+	<tests>
+	</tests>
+
+	<help>
+		Catenate FASTQ / FASTA / TXT / CSV or TSV files (always from the same time).
+	</help>
+</tool>

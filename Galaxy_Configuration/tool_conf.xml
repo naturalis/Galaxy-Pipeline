@@ -202,12 +202,17 @@
     <tool file="phenotype_association/vcf2pgSnp.xml" />
   </section>
   -->
+  <!-- Data tools -->
+  <label id="managedata" text="Manage Data" />
+  <section id="datatools" name="Manage Data">
+    <tool file="identify/manage_zip.xml" />
+    <tool file="identify/cattxt.xml" />
+  </section>
 
   <!-- IonTorrent tools -->
   <label id="iontorrent" text="IonTorrent Tools" />
   <section id="identify" name="Cluster and Identification Tools">
     <label id="import" text="Read demultiplexing and filtering" />
-    <tool file="identify/manage_zip.xml" />
     <tool file="identify/Split_on_Primer.xml" />
     <tool file="identify/Abundance_Filter.xml" />
     <tool file="identify/uchime.xml" />

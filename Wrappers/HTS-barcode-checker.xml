@@ -14,8 +14,7 @@
 			$output_zip
 		#end if
 		#if $location.blast_loc == "local"
-			-lb
-			$location.blast_loc_db
+			-lb nt
 		#else
 			$location.blast_database.blast_al
 			$location.blast_database.blast_db
@@ -113,12 +112,6 @@
 						<expand macro="nucleotide"/>
 					</when>
 				</conditional>
-			</when>
-			<when value="local">
-				<param name="blast_loc_db" type="select" multiple="true" label="Local BLAST database">
-					<option value="/home/galaxy/GenBank/nt_clean">GenBank Filtered Nucleotide Database (No environmental and uncultured samples)</option>
-					<option value="/home/galaxy/GenBank/nt" selected="true">GenBank Nucleotide Database</option>
-				</param>
 			</when>
 		</conditional>
 

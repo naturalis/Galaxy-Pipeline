@@ -34,19 +34,12 @@ if(ncol(OTU) < 2) {
 		physeqF5kR = physeqF
 	}
 	
-	if(count5k <= 2) {
-		if(commandArgs(TRUE)[5] == "order") {
-			plot <- plot_heatmap(physeqF5kR, "RDA", "bray", "Sample", "Taxonomy", taxa.order=commandArgs(TRUE)[3])
-		} else {
-	                plot <- plot_heatmap(physeqF5kR, "RDA", "bray", "Sample", "Taxonomy")
-		}
+	if(commandArgs(TRUE)[5] == "order") {
+        	plot <- plot_heatmap(physeqF5kR, "NMDS", "bray", "Sample", "Taxonomy", taxa.order=commandArgs(TRUE)[3])
 	} else {
-		if(commandArgs(TRUE)[5] == "order") {
-	        	plot <- plot_heatmap(physeqF5kR, "NMDS", "bray", "Sample", "Taxonomy", taxa.order=commandArgs(TRUE)[3])
-		} else {
-	        	plot <- plot_heatmap(physeqF5kR, "NMDS", "bray", "Sample", "Taxonomy")
-		}
+        	plot <- plot_heatmap(physeqF5kR, "NMDS", "bray", "Sample", "Taxonomy")
 	}
+}
 	plot <- plot + theme(plot.margin = unit(c(0.3,0.3,1,1), "inch"), axis.text.y = element_text(size = 10), axis.text.x = element_text(size=10))
 	ggsave(plot=plot, file=commandArgs(TRUE)[2], width=12, height=12,dpi=160)
 }

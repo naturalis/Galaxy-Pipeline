@@ -9,14 +9,13 @@
 		$input_type.input_format
 		#if $abundance.value == True
 			"-A"
-			#if $input_type.input_format == "hist"
-				$output_blast_png
-			#else
-				$output_zip_png
-			#end if
 		#else
 			" "
-			" "
+		#end if
+		#if $input_type.input_format == "hist"
+			$output_blast_png
+		#else
+			$output_zip_png
 		#end if
 		$taxon_level
 		#if $order.value == True

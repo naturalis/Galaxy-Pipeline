@@ -29,7 +29,7 @@ then
 		then
 			# convert the tsv files and set cluster size to 1
 			# save to both the merged and seperate files
-			cut -f11 "$output" | sed -e 's/ \/ /\t/g' | sed -e "s/^/${output%.*}\t1\t/1" >> "merged.tsv"
+			cut -f11 "$output" | sed -e 's/ \/ /\t/g' | sed -e "s/^/${output%.*}\t/" >> "merged.tsv"
 			cut -f11 "$output" | sed -e 's/ \/ /\t/g' > "${output}-K"
 		else
 			# convert the tsv file to the krona format while
@@ -39,6 +39,7 @@ then
 			cut -f2,12 "$output" | sed -e 's/ \/ /\t/g' > "${output}-K"
 		fi
 	done
+	head -n 25 "merged.tsv"
 
 	# Run the Compare blast script
 	Compare_BLAST "$6" "$2" $flist
@@ -52,20 +53,20 @@ then
 	else
 		ktImportText -o "$7" $stemp > /dev/null 2>&1
 		ktImportText -o "$8" "merged.tsv" > /dev/null 2>&1
-
-		# set the rank limits for the heatmap
-		rankname=$(echo "$4" | cut -f1 -d "-")
-		rankpos=$(echo "$4" | cut -f2 -d "-")
-
-		# create an ordered or unordered heatmap based on user settings
-		if [ "$5" == "order" ]
-		then
-			Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "order" > /dev/null 2>&1
-		else
-			Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "unorder" > /dev/null 2>&1
-		fi
-		mv "${3}.png" "$3"
 	fi
+
+	# set the rank limits for the heatmap
+	rankname=$(echo "$4" | cut -f1 -d "-")
+	rankpos=$(echo "$4" | cut -f2 -d "-")
+
+	# create an ordered or unordered heatmap based on user settings
+	if [ "$5" == "order" ]
+	then
+		Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "order" > /dev/null 2>&1
+	else
+		Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "unorder" > /dev/null 2>&1
+	fi
+	mv "${3}.png" "$3"
 
 	# remove the temp file
 	rm $(printf $stemp) $(printf $flist | sort -u) "merged.tsv"
@@ -100,7 +101,7 @@ else
 		then
 			# convert the BLAST file without the cluster sizes
 			# save to both the merged and seperate file
-			cut -f11 "$fblast" | sed -e 's/ \/ /\t/g' | sed -e "s/^/$name\t/1" >> "merged.tsv"
+			cut -f11 "$fblast" | sed -e 's/ \/ /\t/g' | sed -e "s/^/$name\t/" >> "merged.tsv"
 			cut -f11 "$fblast" | sed -e 's/ \/ /\t/g' > "${fblast}-K"
 		else
 			# convert the BLAST file to the input format required by krona
@@ -110,6 +111,8 @@ else
 			cut -f2,12 "$fblast" | sed -e 's/ \/ /\t/g' > "${fblast}-K"
 		fi
 	done
+
+	head -n 25 "merged.tsv"
 
 	# Run the Compare blast script
 	Compare_BLAST "$6" "$2" $flist
@@ -122,20 +125,20 @@ else
 	else
 		ktImportText -o "$7" $stemp > /dev/null 2>&1
 		ktImportText -o "$8" "merged.tsv" > /dev/null 2>&1
-
-		# set the rank limits for the heatmap
-		rankname=$(echo "$4" | cut -f1 -d "-")
-		rankpos=$(echo "$4" | cut -f2 -d "-")
-
-		# generate an ordered or unordered heatmap (based on user setting)
-		if [ "$5" == "order" ]
-		then
-			Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "order" > /dev/null 2>&1
-		else
-			Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "unorder" > /dev/null 2>&1
-		fi
-		mv "${3}.png" "$3"
 	fi
+
+	# set the rank limits for the heatmap
+	rankname=$(echo "$4" | cut -f1 -d "-")
+	rankpos=$(echo "$4" | cut -f2 -d "-")
+
+	# generate an ordered or unordered heatmap (based on user setting)
+	if [ "$5" == "order" ]
+	then
+		Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "order" > /dev/null 2>&1
+	else
+		Heatmap_BLAST "$6" "${3}.png" "$rankname" "$rankpos" "unorder" > /dev/null 2>&1
+	fi
+	mv "${3}.png" "$3"
 
 	# remove the temp file
 	rm $(printf $stemp) $(printf $flist | sort -u) "merged.tsv"

@@ -39,7 +39,6 @@ then
 			cut -f2,12 "$output" | sed -e 's/ \/ /\t/g' > "${output}-K"
 		fi
 	done
-	head -n 25 "merged.tsv"
 
 	# Run the Compare blast script
 	Compare_BLAST "$6" "$2" $flist
@@ -111,8 +110,6 @@ else
 			cut -f2,12 "$fblast" | sed -e 's/ \/ /\t/g' > "${fblast}-K"
 		fi
 	done
-
-	head -n 25 "merged.tsv"
 
 	# Run the Compare blast script
 	Compare_BLAST "$6" "$2" $flist

@@ -82,7 +82,7 @@ else
 	for input_file in "${@:9}"
 	do
 		blast=$(echo "$input_file" | cut -f1 -d ",")
-		name=$(echo "$input_file" | cut -f2 -d "," | sed -e 's/ /_/g' | cut -f1 -d ".")
+		name=$(echo "$input_file" | cut -f2 -d "," | sed -e 's/ /_/g' | sed -e 's/\./_/' | cut -f1 -d ".")
 		fblast=$(echo "$name" | sed 's/.filtered.*//')
 
 		# temp BLAST

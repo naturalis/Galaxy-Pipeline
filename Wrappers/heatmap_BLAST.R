@@ -17,8 +17,8 @@ Sdata = sample_data(data.frame(Sample=colnames(rawdata)[seq(8,length(colnames(ra
 OTU = otu_table(otudata, taxa_are_rows=TRUE)
 TAX = tax_table(taxdata)
 
-if(ncol(OTU) < 2) {
-	text = paste("Need more than one sample in order to create a heatmap.\nIf more than one sample was selected,\n check if the names are unique.")
+if(ncol(OTU) <= 2) {
+	text = paste("Need more than two samples in order to create a heatmap.\nIf more than two samples were selected,\n check if the names are unique.")
 	ggplot() + annotate("text", x = 4, y = 25, size=8, label = text) + theme_bw() + theme(panel.grid.major=element_blank(), panel.grid.minor=element_blank())
 	ggsave(file=commandArgs(TRUE)[2], width=12, height=12,dpi=160)
 } else {

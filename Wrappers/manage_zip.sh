@@ -141,7 +141,7 @@ elif [ "$1" == "subset" ]
 then
 	# files that match use user provided filenames / regex'es are copied
 	# to a new zip file
-	zip -9 -U "$2" $(echo "$4" | sed 's/__cn__/ /g') -O "$3"
+	zip -9 -U "$2" $(echo "$4" | sed 's/__cn__/ /g' | sed 's/__dq__/\"/g' | sed 's/__ob__/\[/g' | sed 's/__cb__/\]/g') -O "$3"
 
 # If nothing matches
 else

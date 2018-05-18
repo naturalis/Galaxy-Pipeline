@@ -103,7 +103,7 @@ then
 # the output is directly written to the expected location
 else
 	# set the temporary blast output path
-	plain="${2%.*}"_temp.tsv
+	plain="${3%.*}"_temp.tsv
 
 	if [ "$8" == "-lb" ]; then
 		# the command for local blasting
